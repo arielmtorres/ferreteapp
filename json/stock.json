@@ -1,0 +1,5 @@
+[
+  { "id": 1, "nombre": "Tornillo M3", "ubicacion": "A-12", "cantidad": 1200, "precio": 200, "proveedor": "Acme S.A." },
+  { "id": 2, "nombre": "Tuerca M4",   "ubicacion": "B-03", "cantidad":  800, "precio": 150, "proveedor": "Ferretería López" },
+  { "id": 3, "nombre": "Clavo 2”",    "ubicacion": "C-15", "cantidad": 3000, "precio": 50,  "proveedor": "FerreTodo"   }
+]
