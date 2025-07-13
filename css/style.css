@@ -59,7 +59,7 @@ nav.menu a:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 940px) {
   .user-menu {
     display: none;
     width: 100%;
