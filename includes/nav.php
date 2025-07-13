@@ -5,4 +5,5 @@
   <a href="#/stock"      class="btn btn-link">Stock</a>
   <a href="#/ventas"     class="btn btn-link">Ventas</a>
   <a href="#/reportes"   class="btn btn-link">Reportes</a>
+  <a href="#/usuarios"   class="btn btn-link">Usuarios</a>
 </nav>

@@ -1,3 +1,3 @@
 
-<h2>Stock</h2>
+<h2>Usuarios</h2>
 <p>Aquí podra ingresar ussuarios</p>
