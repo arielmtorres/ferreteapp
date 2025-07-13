@@ -1,0 +1,218 @@
+
+ <section id="gestion-incidencias">
+  <h2 class="titulo-seccion">GESTIÓN DE INCIDENCIAS</h2>
+
+  <div class="form-buttons">
+    <button id="btnNueva">NUEVA</button>
+    <button id="btnModificar">MODIFICAR</button>
+    <button id="btnEliminar">ELIMINAR</button>
+    <button id="btn-asignar" class="btn-asignar">ASIGNAR AL PROVEEDOR</button>
+  </div>
+
+  <!-- Aquí seguiría tu tabla, filtro, y modal -->
+<!-- Modal Asignar Proveedor -->
+<div id="modal-proveedor" class="modal">
+  <div class="modal-content">
+    <span id="btn-cerrar-modal" class="close">&times;</span>
+    <h2>Asignar Proveedor</h2>
+
+    <form id="form-asignar">
+      <label>ID Incidencia:</label>
+      <input type="text" id="id-incidencia" readonly>
+
+      <label>Proveedor:</label>
+      <input type="text" id="proveedor-asignar" required>
+
+      <label>CUIT:</label>
+      <input type="text" id="cuit-asignar" required>
+
+      <div class="modal-buttons">
+        <button type="submit">Asignar</button>
+        <button type="button" id="btn-cerrar-modal">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+</section>
+
+
+  <!-- Filtro -->
+  <label for="filtroEstado">Filtrar por Estado:</label>
+  <select id="filtroEstado">
+    <option value="">Todos</option>
+    <option value="Resuelto">Resuelto</option>
+    <option value="En proceso">En proceso</option>
+    <option value="Alerta">Alerta</option>
+    <option value="No resuelto">No resuelto</option>
+  </select>
+
+  <!-- Tabla -->
+  <table class="resumen">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nivel</th>
+        <th>Escuela</th>
+        <th>Sección</th>
+        <th>Subgrupo</th>
+        <th>Área</th>
+        <th>Fecha Inicio</th>
+        <th>Proveedor Asignado</th>
+        <th>CUIT</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>001</td>
+        <td>Primaria</td>
+        <td>0004PP0075</td>
+        <td>Infraestructura-GAS</td>
+        <td>Revisión de cámara</td>
+        <td>Baño</td>
+        <td>05/06/2025</td>
+        <td>Proveedor A</td>
+        <td>20-34567890-1</td>
+        <td>En proceso</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>002</td>
+        <td>Secundaria</td>
+        <td>0004MS0010</td>
+        <td>Infraestructura-TECHOS</td>
+        <td>Mantenimiento pluvial</td>
+        <td>Patio</td>
+        <td>01/06/2025</td>
+        <td>Proveedor B</td>
+        <td>20-12345678-2</td>
+        <td>No resuelto</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>003</td>
+        <td>Técnica</td>
+        <td>0004MT0001</td>
+        <td>Infraestructura-ELECTRICIDAD</td>
+        <td>Revisión sistema incendios</td>
+        <td>Cocina</td>
+        <td>03/06/2025</td>
+        <td>Proveedor C</td>
+        <td>20-98765432-1</td>
+        <td>Resuelto</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>004</td>
+        <td>Inicial</td>
+        <td>0004JI0001</td>
+        <td>Infraestructura-PISOS</td>
+        <td>Reposición de mosaicos</td>
+        <td>Aula</td>
+        <td>07/06/2025</td>
+        <td>Proveedor A</td>
+        <td>20-23456789-0</td>
+        <td>En proceso</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>005</td>
+        <td>Adultos</td>
+        <td>0004PP0021</td>
+        <td>Infraestructura-AGUA</td>
+        <td>Desagote de pozo</td>
+        <td>Baño</td>
+        <td>06/06/2025</td>
+        <td>Proveedor B</td>
+        <td>20-11223344-5</td>
+        <td>No resuelto</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>006</td>
+        <td>Primaria</td>
+        <td>0004PP0001</td>
+        <td>Infraestructura-CIELORRASOS</td>
+        <td>Humedad</td>
+        <td>Dirección</td>
+        <td>04/06/2025</td>
+        <td>Proveedor C</td>
+        <td>20-55667788-3</td>
+        <td>Resuelto</td>
+        <td></td>
+      </tr>
+      <!-- 🔥 Más ejemplos -->
+      <tr>
+        <td>007</td>
+        <td>Especial</td>
+        <td>0004ES0023</td>
+        <td>Infraestructura-MAMPOSTERÍA</td>
+        <td>Revoques exteriores</td>
+        <td>Frente</td>
+        <td>08/06/2025</td>
+        <td>Proveedor D</td>
+        <td>20-33445566-7</td>
+        <td>En proceso</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>008</td>
+        <td>Superior</td>
+        <td>0004SU0005</td>
+        <td>Infraestructura-PUERTAS</td>
+        <td>Reemplazo cerraduras</td>
+        <td>Biblioteca</td>
+        <td>10/06/2025</td>
+        <td>Proveedor E</td>
+        <td>20-77889900-1</td>
+        <td>Resuelto</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>009</td>
+        <td>Técnica</td>
+        <td>0004MT0040</td>
+        <td>Infraestructura-PISOS</td>
+        <td>Reparación baldosas</td>
+        <td>Laboratorio</td>
+        <td>12/06/2025</td>
+        <td>Proveedor F</td>
+        <td>20-99887766-4</td>
+        <td>En proceso</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>010</td>
+        <td>Secundaria</td>
+        <td>0004MS0044</td>
+        <td>Infraestructura-ACCESIBILIDAD</td>
+        <td>Construcción de rampa</td>
+        <td>Entrada</td>
+        <td>14/06/2025</td>
+        <td>Proveedor G</td>
+        <td>20-55443322-8</td>
+        <td>Resuelto</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>011</td>
+        <td>Inicial</td>
+        <td>0004JI0045</td>
+        <td>Infraestructura-PATIOS</td>
+        <td>Reacondicionamiento juegos</td>
+        <td>Patio trasero</td>
+        <td>16/06/2025</td>
+        <td>Proveedor H</td>
+        <td>20-12344321-0</td>
+        <td>No resuelto</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</section>

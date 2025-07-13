@@ -1,0 +1,74 @@
+/* ================================
+   FORMULARIOS DE INCIDENCIAS
+   ================================ */
+
+/* Fondo general del formulario */
+body, #principalBody {
+  background-color: #f4f4f4;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Título */
+h2 {
+  text-align: center;
+  color: #0078BF;
+  margin-bottom: 20px;
+}
+
+/* Formulario */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 12px rgba(0,0,0,0.1);
+}
+
+/* Labels e inputs */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+/* Botones */
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.form-buttons button {
+  background-color: #0078BF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-buttons button:hover {
+  background-color: #005a8c;
+}
+
+.form-buttons button:active {
+  background-color: #003f5c;
+}

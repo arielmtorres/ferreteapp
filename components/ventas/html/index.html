@@ -1,0 +1,76 @@
+<section id="trazabilidad">
+  <h2>TRAZABILIDAD</h2>
+
+  <label for="filtroIncidentes">Filtros:</label>
+        <select id="filtroIncidentes">
+            <option value="">Todos</option>
+            <option value="id 001">id 001</option>
+            <option value="id 002">id 002</option>
+            <option value="id 003">id 003</option>
+        </select>
+
+
+  <table id="tablaIncidentes" class="resumen">
+   <thead>
+  <tr>
+    <th data-col="0">ID</th>
+    <th data-col="1">Escuela</th>
+    <th data-col="2">CUIT Proveedor</th>
+    <th data-col="3">Apellido y Nombre</th>
+    <th data-col="4">Tipo</th>
+    <th data-col="5">Estado</th>
+    <th data-col="6">Fecha Asignación</th>
+    <th data-col="7">Fecha Estimada Reparación</th>
+    <th>Ver Detalle</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>001</td>
+    <td>Esc. Primaria 15</td>
+    <td>20-12345678-9</td>
+    <td>Juan Pérez</td>
+    <td>Gas</td>
+    <td class="estado-en-proceso">En proceso</td>
+    <td>01/06/2025</td>
+    <td>10/06/2025</td>
+    <td><button>Ver Detalle</button></td>
+  </tr>
+  <tr>
+    <td>002</td>
+    <td>Esc. Secundaria 4</td>
+    <td>20-87654321-0</td>
+    <td>Laura Gómez</td>
+    <td>Electricidad</td>
+    <td class="estado-resuelto">Resuelto</td>
+    <td>15/05/2025</td>
+    <td>20/05/2025</td>
+    <td><button>Ver Detalle</button></td>
+  </tr>
+  <tr>
+    <td>003</td>
+    <td>Esc. Técnica 2</td>
+    <td>27-33445566-1</td>
+    <td>Roberto Díaz</td>
+    <td>Internet</td>
+    <td class="estado-pendiente">Pendiente</td>
+    <td>05/06/2025</td>
+    <td>—</td>
+    <td><button>Ver Detalle</button></td>
+  </tr>
+  <tr>
+    <td>004</td>
+    <td>Jardín 7</td>
+    <td>23-11223344-5</td>
+    <td>Ana López</td>
+    <td>Infraestructura</td>
+    <td class="estado-no-iniciado">No iniciado</td>
+    <td>02/06/2025</td>
+    <td>—</td>
+    <td><button>Ver Detalle</button></td>
+  </tr>
+</tbody>
+
+
+
+ <script src="./js/trazabilidad.js"></script>

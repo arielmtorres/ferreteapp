@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consejo Escolar Almirante Brown</title>
+
+  <!-- Estilos principales -->
+  <link rel="stylesheet" href="./css/index.css" />
+
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <img src="./img/logoCeab_H.jpg" alt="Logo Consejo Escolar" class="logo" />
+      <h3 class="titulo">• INCIDEN APP •</h3>
+    </div>
+
+    <div class="user-menu">
+      <img src="./img/avatar.png" alt="Usuario" class="avatar" id="avatar" title=" • Usuario 1 " />
+      <p class="username">Consejo Escolar</p>
+      <div class="dropdown hidden" id="user-dropdown">
+        <button>Perfil</button>
+        <button>Cerrar sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor principal -->
+  <div class="container">
+    
+    <!-- Menú lateral -->
+    <nav class="menu">
+      <button id="opcInicio">Inicio</button>
+      <button id="opcIncidencias">Incidencias</button>
+      <button id="opcProveedores">Proveedores</button>
+      <button id="opcTrazabilidad">Trazabilidad</button>
+    </nav>
+
+    <!-- Sidebar dinámico si se usa -->
+    <div id="sidebar-container"></div>
+
+    <!-- Contenido principal SPA -->
+    <main class="main-content">
+      <div id="principal">
+        <div id="principalHeader"></div>
+        <div id="principalBody"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts SPA -->
+  <script src="./js/menu_usu.js"></script>
+   
+  <script type="module" src="./js/incidenapp.js"></script>
+  <script type="module" src="./components/inicio/js/dash.js"></script>
+  <script type="module" src="./components/inicio/js/inicio.js"></script>
+  <script type="module" src="./components/inicio/js/app.js"></script>
+  <script type="module" src="./components/incidencias/js/incidencias.js"></script>
+  <script type="module" src="./components/incidencias/js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+</html>

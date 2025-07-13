@@ -1,0 +1,50 @@
+[
+  {
+    "id": "001",
+    "nivel": "Primaria",
+    "escuela": "0004PP0075",
+    "seccion": "Infraestructura-GAS",
+    "subgrupo": "Revisión de cámara",
+    "area": "Baño",
+    "fecha": "05/06/2025",
+    "proveedor": "Proveedor A",
+    "cuit": "20-34567890-1",
+    "estado": "En proceso"
+  },
+  {
+    "id": "002",
+    "nivel": "Secundaria",
+    "escuela": "0004MS0010",
+    "seccion": "Infraestructura-TECHOS",
+    "subgrupo": "Mantenimiento pluvial",
+    "area": "Patio",
+    "fecha": "01/06/2025",
+    "proveedor": "Proveedor B",
+    "cuit": "20-12345678-2",
+    "estado": "No resuelto"
+  },
+  {
+    "id": "003",
+    "nivel": "Técnica",
+    "escuela": "0004MT0001",
+    "seccion": "Infraestructura-ELECTRICIDAD",
+    "subgrupo": "Revisión sistema incendios",
+    "area": "Cocina",
+    "fecha": "03/06/2025",
+    "proveedor": "Proveedor C",
+    "cuit": "20-98765432-1",
+    "estado": "Resuelto"
+  },  
+  {
+    "id": "001",
+    "nivel": "Primaria",
+    "escuela": "0004PP0075",
+    "seccion": "Infraestructura-GAS",
+    "subgrupo": "Revisión de cámara",
+    "area": "Baño",
+    "fecha": "05/06/2025",
+    "proveedor": "Proveedor A",
+    "cuit": "20-34567890-1",
+    "estado": "En proceso"
+  }
+]

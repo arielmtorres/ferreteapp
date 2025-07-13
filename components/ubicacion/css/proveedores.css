@@ -1,0 +1,106 @@
+/* ================================
+   Estilos para la sección Proveedores
+   ================================ */
+
+/* Fondo general */
+body {
+  background-color: #f4f4f4;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Título */
+#proveedores h2 {
+  text-align: center;
+  color: #0078BF;
+  margin: 20px 0;
+}
+
+/* Filtro */
+#filtroProveedores {
+  display: block;
+  margin: 0 auto 20px auto;
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Tabla de proveedores */
+.resumen {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.resumen thead {
+  background-color: #0078BF;
+  color: white;
+}
+
+.resumen th,
+.resumen td {
+  padding: 12px 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.resumen th {
+  font-weight: bold;
+}
+
+.resumen tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.resumen tr:hover {
+  background-color: #e1f0fa;
+}
+
+/* ================
+   Botones y menú
+   ================ */
+
+.form-buttons {
+  margin-top: 20px;
+  text-align: center;
+
+  /* ✔️ Agregado borde */
+  border: 2px solid #0078BF;
+  border-radius: 10px;
+  padding: 15px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-buttons button {
+  background-color: #0078BF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.form-buttons button:hover {
+  background-color: #005a8c;
+}
+
+.form-buttons button:active {
+  background-color: #003f5c;
+}
+
+/* Fila seleccionada */
+tr.selected {
+  background-color: rgba(0, 120, 191, 0.2);
+}

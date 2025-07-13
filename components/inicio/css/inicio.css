@@ -1,0 +1,106 @@
+/* ================================
+   Estilos para sección de Inicio y Gráficos
+   ================================ */
+
+/* Fondo general */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Título de la sección */
+.titulo-incidentes {
+  text-align: center;
+  color: #0078BF;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Fecha */
+.fecha-hoy {
+  text-align: center;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Grid de estados */
+.status-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+/* Tarjetas de estado */
+.status-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 180px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.status-card:hover {
+  transform: translateY(-5px);
+}
+
+.status-card h3 {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+/* Colores según estado */
+.status-card.resolved {
+  border-top: 6px solid #28a745;
+}
+
+.status-card.processing {
+  border-top: 6px solid #ffc107;
+}
+
+.status-card.alert {
+  border-top: 6px solid #dc3545;
+}
+
+.status-card p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+/* Gráfico */
+#graficoIncidentes {
+  width: 100% !important;
+  max-width: 500px;
+  height: auto !important;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Estilo para el h1 del encabezado */
+header h1 {
+  margin: 0;
+  padding-left: 10px;
+  font-size: 2rem;
+  color: white;
+  flex-grow: 1;
+}
+
+/* Contenedor del gráfico */
+.grafico-wrapper {
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+

@@ -1,0 +1,170 @@
+/* ===========================
+   Estilos principales del index
+   =========================== */
+
+/* Reset general */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* ================= Header ================= */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #0078BF;
+  color: white;
+  padding: 12px 24px;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  height: 70px;
+  width: auto;
+  transition: height 0.3s;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* ================= User Menu ================= */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.username {
+  margin: 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  min-width: 160px;
+}
+
+.dropdown button {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Ocultar */
+.hidden {
+  display: none;
+}
+
+/* ================= Container ================= */
+.container {
+  display: flex;
+  min-height: calc(100vh - 100px);
+}
+
+/* ================= Sidebar Menu ================= */
+.menu {
+  width: 190px;
+  background-color: #2c3e50;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.menu button {
+  background-color: #0078BF;
+  color: white;
+  border: none;
+  padding: 12px;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 150px;
+  height: 48px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.menu button:hover {
+  background-color: #005a8c;
+}
+
+.menu button:active {
+  background-color: #003f5c;
+}
+
+/* ================= Main Content ================= */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 800px) {
+  .logo {
+    height: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  h3 {
+    display: none;
+  }
+
+  .user-menu {
+    transform: scale(0.7);
+    transform-origin: top right;
+    width: auto;
+    margin: 0;
+    gap: 5px;
+  }
+
+  .username {
+    font-size: 0.7rem;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+  }
+}

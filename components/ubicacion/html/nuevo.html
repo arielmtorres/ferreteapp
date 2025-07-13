@@ -1,0 +1,23 @@
+<section class="formulario-proveedor">
+  <h2 class="titulo-seccion">Nuevo Proveedor</h2>
+  <form id="form-nuevo-proveedor" class="formulario-box">
+
+    <label for="cuit-nuevo">CUIT:</label>
+    <input type="text" name="cuit" id="cuit-nuevo" required>
+
+    <label for="nombre-nuevo">Nombre:</label>
+    <input type="text" name="nombre" id="nombre-nuevo" required>
+
+    <label for="rubro-nuevo">Rubro:</label>
+    <input type="text" name="rubro" id="rubro-nuevo" required>
+
+    <label for="observaciones-nuevo">Observaciones:</label>
+    <textarea name="observaciones" id="observaciones-nuevo" rows="3"></textarea>
+
+    <div class="form-buttons">
+      <button type="submit">GUARDAR</button>
+      <button type="button" onclick="loadComponent('components/proveedores/html/index.html', 'components/proveedores/css/proveedores.css', 'components/proveedores/js/proveedores.js')">CANCELAR</button>
+    </div>
+
+  </form>
+</section>
