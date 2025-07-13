@@ -17,18 +17,18 @@ if (!defined('FERRETEAPP')) exit;
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
- 
   <header>
     <div class="header-left">
-      <img src="img/header.png" alt="Logo" class="logo" />
-     
+      <img src="img/logoF.png" alt="Logo" class="logo" />
     </div>
 
-    <div class="user-menu">
-      <!-- avatar, nombre, dropdown -->
+    <button class="menu-toggle" aria-label="Abrir menú">
+      ☰
+    </button>
+
+    <div class="user-menu" id="userMenu">
       <?php include __DIR__.'/nav.php'; ?>
     </div>
-
-    
   </header>
+
   <div class="container">
