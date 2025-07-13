@@ -17,6 +17,7 @@ if (!defined('FERRETEAPP')) exit;
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+ 
   <header>
     <div class="header-left">
       <img src="img/header.png" alt="Logo" class="logo" />
@@ -27,5 +28,7 @@ if (!defined('FERRETEAPP')) exit;
       <!-- avatar, nombre, dropdown -->
       <?php include __DIR__.'/nav.php'; ?>
     </div>
+
+    
   </header>
   <div class="container">

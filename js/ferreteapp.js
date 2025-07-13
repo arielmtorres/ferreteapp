@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Carga la sección inicial y ataja cambios de hash
   navigate();
   window.addEventListener('hashchange', navigate);
+
+
+
+
+  
 });
 
 function navigate() {
@@ -58,3 +63,4 @@ window.initInicio = function() {
   const fechaEl = document.getElementById('fecha-hoy');
   if (fechaEl) fechaEl.textContent = new Date().toLocaleDateString();
 };
+
