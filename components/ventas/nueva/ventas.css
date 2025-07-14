@@ -1,0 +1,25 @@
+/* components/ventas/ventas.css */
+
+#ventas {
+  margin-bottom: 2rem;
+}
+
+#ventas .card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+#ventas .card-header {
+  background-color: #004c91; /* tu color secondary */
+  color: #fff;
+}
+
+#ventas .table td, 
+#ventas .table th {
+  vertical-align: middle;
+}
+
+#ventas .btn-primary {
+  background-color: #004c91;
+  border-color: #004c91;
+}
