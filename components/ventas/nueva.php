@@ -56,6 +56,21 @@
   </div>
 </div>
 
+<div class="table-responsive mb-3">
+  <table class="table table-bordered table-sm" id="detalleProductosTabla">
+    <thead class="table-light">
+      <tr>
+        <th>Producto</th>
+        <th>Ubicación</th>
+        <th>Cant.</th>
+        <th>Unitario</th>
+        <th>Subtotal</th>
+        <th>Quitar</th>
+      </tr>
+    </thead>
+    <tbody id="detalleProductosBody"></tbody>
+  </table>
+</div>
 
 
     <div class="d-flex justify-content-end align-items-center mb-2 mt-2 border-top pt-2">
@@ -131,6 +146,10 @@
     </div>
   </div>
 </div>
+
+
+
+
 
 
 

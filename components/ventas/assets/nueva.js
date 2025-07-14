@@ -10,7 +10,7 @@ window.initVentasNueva = function () {
   const jsonContentArea = document.getElementById('jsonContentArea');
   const btnAceptarQRData = document.getElementById('btnAceptarQRData');
   const btnAdj = document.getElementById('btnAdjuntar');
-  const tablaBody = document.querySelector('#tablaVenta tbody');
+  const tablaBody = document.getElementById('tablaVentaTicket');
   const proformaTotal = document.getElementById('proformaTotal');
   const inputCosto = document.getElementById('inputCosto');
   const btnCancelar = document.getElementById('btnCancelarVenta');
@@ -52,21 +52,22 @@ window.initVentasNueva = function () {
       { facingMode: "environment" },
       { fps: 10, qrbox: 250 },
       qrCodeMessage => {
+        // Solo permitimos JSON válido
         let json = null;
         try {
-          json = typeof qrCodeMessage === 'string' ? JSON.parse(qrCodeMessage) : qrCodeMessage;
-        } catch (e) {
-          jsonContentArea.value = 'El QR leído no es un JSON válido.';
+          json = JSON.parse(qrCodeMessage.trim());
           qrJsonDisplay.style.display = 'block';
-          return;
-        }
-        qrJsonDisplay.style.display = 'block';
-        jsonContentArea.value = JSON.stringify(json, null, 2);
-        btnAceptarQRData.style.display = 'inline-block';
+          jsonContentArea.value = JSON.stringify(json, null, 2);
+          btnAceptarQRData.style.display = 'inline-block';
 
-        qrScanner.stop().then(() => {
-          qrReaderDiv.style.display = 'none';
-        });
+          qrScanner.stop().then(() => {
+            qrReaderDiv.style.display = 'none';
+          });
+        } catch (e) {
+          jsonContentArea.value = 'El QR leído NO es JSON válido.\n\nRevisá el formato.\nDebe ser: {"producto":"Taladro","ubicacion":"A3","precio":18500.5,"cantidad":2}';
+          qrJsonDisplay.style.display = 'block';
+          btnAceptarQRData.style.display = 'none';
+        }
       },
       errorMessage => {
         // Silencioso
@@ -80,23 +81,19 @@ window.initVentasNueva = function () {
     if (qrScanner && qrScanner._isScanning) {
       qrScanner.stop().catch(() => {});
     }
-    const qrReaderDiv = document.getElementById('qr-reader');
     qrReaderDiv.style.display = 'none';
-    // Limpia overlay si queda colgado
     document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
     document.body.classList.remove('modal-open');
   });
 
-  // ✅ "Aceptar" después de leer QR: NO navega ni recarga, solo cierra modal y limpia overlays
+  // "Aceptar" después de leer QR
   btnAceptarQRData.addEventListener("click", () => {
-    let raw = jsonContentArea.value
-      .replace(/^[^{]*/, '')   // Quita lo anterior al primer {
-      .replace(/[^}]*$/, '');  // Quita lo posterior al último }
+    let raw = jsonContentArea.value;
     let jsonDatos = null;
     try {
       jsonDatos = JSON.parse(raw);
       mostrarProductoEnPantalla(jsonDatos);
-      bootstrap.Modal.getInstance(document.getElementById("modalScanOrSearchQR")).hide();
+      bootstrap.Modal.getInstance(modalQR).hide();
       setTimeout(() => {
         document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
         document.body.classList.remove('modal-open');
@@ -109,16 +106,15 @@ window.initVentasNueva = function () {
 
   function mostrarProductoEnPantalla(data) {
     productoSeleccionado = data;
-    document.getElementById("detProducto").value = data.producto || '';
-    document.getElementById("detUbicacion").value = data.ubicacion || '';
-    document.getElementById("detCantidad").value = data.cantidad || 1;
-    document.getElementById("detCosto").value = data.precio || 0;
+    // Si querés los inputs visibles, podés mostrarlos acá (¡editables!)
+    document.getElementById("busquedaProducto").value = data.producto || '';
     inputCosto.value = data.precio || 0;
+    selectCant.value = data.cantidad || 1;
     actualizarTotalVista();
   }
 
   function actualizarTotalVista() {
-    if (!productoSeleccionado) return;
+    if (!inputCosto.value) return;
     const cant = +selectCant.value;
     const costo = +inputCosto.value;
     const tot = cant * costo;
@@ -168,10 +164,7 @@ window.initVentasNueva = function () {
     });
 
     productoSeleccionado = null;
-    document.getElementById("detProducto").value = '';
-    document.getElementById("detUbicacion").value = '';
-    document.getElementById("detCantidad").value = '';
-    document.getElementById("detCosto").value = '';
+    document.getElementById("busquedaProducto").value = '';
     inputCosto.value = '';
     selectCant.value = 1;
     actualizarTotalVista();
@@ -186,5 +179,3 @@ window.initVentasNueva = function () {
 document.addEventListener('DOMContentLoaded', function(){
   if(typeof window.initVentasNueva === 'function') window.initVentasNueva();
 });
-
-
