@@ -1,59 +1,54 @@
-<?php
-// login.php
-session_start();
-
-// Si ya estás logueado, redirige al index
-if (!empty($_SESSION['user'])) {
-  header('Location: index.php');
-  exit;
-}
-
-// Procesa envío de formulario
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $user = $_POST['user']   ?? '';
-  $pass = $_POST['pass']   ?? '';
-
-  // Aquí validas contra JSON o BD; ejemplo básico:
-  $users = json_decode(file_get_contents('json/usuarios.json'), true);
-  foreach ($users as $u) {
-    if ($u['user'] === $user && $u['pass'] === $pass) {
-      $_SESSION['user'] = $user;
-      header('Location: index.php');
-      exit;
-    }
-  }
-  $error = 'Credenciales inválidas';
-}
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Login – FerreteApp</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Consejo Escolar</title>
+  <link rel="stylesheet" href="./css/login.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
 </head>
-<body class="d-flex justify-content-center align-items-center vh-100 bg-light">
-  <form method="POST" class="p-4 bg-white rounded shadow" style="width: 300px;">
-    <h3 class="mb-3 text-center">FerreteApp</h3>
 
-    <?php if (!empty($error)): ?>
-      <div class="alert alert-danger"><?=htmlspecialchars($error)?></div>
-    <?php endif; ?>
+<body>
+  <header>
+    <img src="img/logoF.png" alt="Logo ferreteapp" class="logo" />
+  </header>
 
-    <div class="mb-3">
-      <label class="form-label">Usuario</label>
-      <input name="user" type="text" class="form-control" required>
-    </div>
+  <main>
+    <section class="login-container">
+      <h3>INICIAR SESIÓN</h3>
 
-    <div class="mb-3">
-      <label class="form-label">Contraseña</label>
-      <input name="pass" type="password" class="form-control" required>
-    </div>
+      <!--
+      <form onsubmit="return login(event)" novalidate>
+        <div class="form-group">
+          <label for="role">ROL</label>
+          <select id="role" name="role" required>
+            <option value="">Seleccione un rol</option>
+            <option value="administrador">ADMINISTRADOR</option>
+            <option value="empleado">EMPLEADO</option>
+          </select>
+        </div>
+        -->
+        <div class="form-group">
+          <label for="user">USUARIO</label>
+          <input type="text" id="user" name="user" required />
+          <!--<small class="hint">Utilizar mail de @abc.gob.ar o @gmail.com</small>-->
+        </div>
 
-    <button class="btn btn-primary w-100">Ingresar</button>
-  </form>
+        <div class="form-group">
+          <label for="password">CONTRASEÑA</label>
+          <input type="password" id="password" required />
+          <div class="show-password">
+            <!--<input type="checkbox" id="togglePassword" onclick="togglePasswordVisibility()" />
+            <label for="togglePassword">Mostrar</label>-->
+          </div>
+        </div>
+
+        <button type="submit"><a href="index.php">Ingresar</a></button>
+      </form>
+    </section>
+  </main>
+
+  
+  <script src="./js/login.js"></script>
 </body>
 </html>
