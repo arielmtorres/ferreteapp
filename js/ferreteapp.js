@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Carga la sección inicial y ataja cambios de hash
   navigate();
   window.addEventListener('hashchange', navigate);
+
+
+
+
+  
 });
 
 function navigate() {
@@ -34,27 +39,11 @@ function capitalize(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-// --- Ejemplo de init para stock (si lo tienes) --- 
-window.initStock = function() {
-  const tbody = document.getElementById('stockTableBody');
-  if (!tbody) return;
-  fetch('json/stock.json')
-    .then(r=>r.json())
-    .then(data=>{
-      tbody.innerHTML = data.map(item=>`
-        <tr>
-          <td>${item.nombre}</td>
-          <td>${item.ubicacion}</td>
-          <td>${item.cantidad}</td>
-          <td>$${item.precio}</td>
-        </tr>
-      `).join('');
-    })
-    .catch(console.error);
-};
+
 
 // --- Y un init para inicio si lo necesitas ---
 window.initInicio = function() {
   const fechaEl = document.getElementById('fecha-hoy');
   if (fechaEl) fechaEl.textContent = new Date().toLocaleDateString();
 };
+
