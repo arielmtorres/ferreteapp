@@ -1,17 +1,6 @@
 
-
+<br><br>
 <section id="inicio">
-  <div class="d-flex gap-2 my-3">
-    <button id="btnNuevaVenta"    class="btn btn-primary">+ Nueva venta</button>
-    <button id="btnIngresarStock" class="btn btn-secondary">+ Ingresar stock</button>
-  </div>
-
-  <div class="input-group mb-3">
-    <input type="text" id="searchInput" class="form-control" placeholder="Buscar producto…">
-    <button id="btnBuscar"     class="btn btn-outline-secondary">🔍</button>
-    <button id="btnQrScanner" class="btn btn-outline-secondary">📷</button>
-  </div>
-
 <!-- Bajo stock -->
   <div class="col-md-12">
       <div class="card border-warning shadow-sm">
