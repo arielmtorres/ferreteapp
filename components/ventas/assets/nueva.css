@@ -64,6 +64,7 @@
 
 /* Modal imagen temporal (fondo oscuro fuerte) */
 #modalImagenTemporal .modal-content {
+  width: 70%;
   background: transparent;
   box-shadow: none;
   border: none;
@@ -77,33 +78,40 @@
 
 
 .factura-imprimir {
-max-width: 350px;
+max-width: 550px;
 margin: 0 auto;
 background: #fff;
 border-radius: 13px;
 padding: 1rem 1.2rem 1.2rem 1.2rem;
 font-family: 'Segoe UI', Arial, sans-serif;
 box-shadow: 0 3px 16px #0001;
-}
-@media print {
-.modal-content, .modal-dialog, .factura-modal-content {
-  background: none !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 0 !important;
-  margin: 0 auto !important;
-}
-.factura-imprimir {
-  border: 2px dashed #bdbdbd !important;
-  background: #fafafa !important;
-  font-family: 'Courier New', Courier, monospace !important;
-  max-width: 340px !important;
-  box-shadow: none !important;
-  color: #000 !important;
-}
-.modal-footer, .btn, nav, header, footer, .d-print-none {
-  display: none !important;
+
 }
 
+/* Imagen más grande dentro del modal temporal */
+.img-modal-temporal {
+  max-width: 1200px;
+  width: 100%;
+}
+
+/* Al imprimir, imagen ocupa todo el ancho disponible */
+@media print {
+  #modalImagenTemporal .img-modal-temporal {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    height: auto !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    display: block !important;
+  }
+
+  /* Opcional: elimina bordes y fondo del modal al imprimir */
+  #modalImagenTemporal .modal-content,
+  #modalImagenTemporal .modal-body {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
 }
 
