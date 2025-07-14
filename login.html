@@ -16,32 +16,34 @@
   <main>
     <section class="login-container">
       <h3>INICIAR SESIÓN</h3>
+
+      <!--
       <form onsubmit="return login(event)" novalidate>
         <div class="form-group">
           <label for="role">ROL</label>
           <select id="role" name="role" required>
             <option value="">Seleccione un rol</option>
-            <option value="consejo">CONSEJO ESCOLAR</option>
-            <option value="proveedor">PROVEEDOR</option>
+            <option value="administrador">ADMINISTRADOR</option>
+            <option value="empleado">EMPLEADO</option>
           </select>
         </div>
-
+        -->
         <div class="form-group">
-          <label for="user">USUARIO</label>aritorres@abc.gob.ar
+          <label for="user">USUARIO</label>
           <input type="text" id="user" name="user" required />
-          <small class="hint">Utilizar mail de @abc.gob.ar o @gmail.com</small>
+          <!--<small class="hint">Utilizar mail de @abc.gob.ar o @gmail.com</small>-->
         </div>
 
         <div class="form-group">
-          <label for="password">CONTRASEÑA</label>admin123
+          <label for="password">CONTRASEÑA</label>
           <input type="password" id="password" required />
           <div class="show-password">
-            <input type="checkbox" id="togglePassword" onclick="togglePasswordVisibility()" />
-            <label for="togglePassword">Mostrar</label>
+            <!--<input type="checkbox" id="togglePassword" onclick="togglePasswordVisibility()" />
+            <label for="togglePassword">Mostrar</label>-->
           </div>
         </div>
 
-        <button type="submit">Ingresar</button>
+        <button type="submit"><a href="index.php">Ingresar</a></button>
       </form>
     </section>
   </main>
