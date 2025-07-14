@@ -1,9 +1,9 @@
-<?php if(!defined('FERRETEAPP')) exit; ?>
+<link rel="stylesheet" href="components/ventas/nueva/ventas-nueva.css">
 
 <section id="nueva-venta" class="mb-5">
   <!-- 1) Cabecera Pro forma -->
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="m-0">Pro forma</h4>
+    <h4 class="m-0">PRO FORMA</h4>
     <button id="btnImprimir" class="btn btn-success">Imprimir ticket</button>
   </div>
 

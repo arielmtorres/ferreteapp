@@ -1,0 +1,62 @@
+/* components/ventas/nueva/ventas-nueva.css */
+
+/* Espaciado general */
+#nueva-venta {
+  margin-bottom: 2rem;
+}
+
+/* Separación del botón imprimir de la cabecera */
+#nueva-venta .d-flex {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Botón Imprimir bien separado y visible */
+#nueva-venta #btnImprimir {
+  margin-left: 20px;
+}
+
+/* Colores y detalles de la tabla final */
+#nueva-venta table {
+  border-collapse: collapse;
+}
+
+#nueva-venta table th {
+  background-color: #004c91;
+  color: #fff;
+}
+
+#nueva-venta table td,
+#nueva-venta table th {
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* Ajustes para inputs readonly */
+#nueva-venta input[readonly] {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+}
+
+/* Botones secundarios */
+#nueva-venta .btn-outline-secondary {
+  border-color: #004c91;
+  color: #004c91;
+}
+
+#nueva-venta .btn-outline-secondary:hover {
+  background-color: #004c91;
+  color: white;
+}
+
+/* Ajustes para input de búsqueda */
+#nueva-venta #busquedaProducto {
+  max-width: 300px;
+}
+
+/* Ajuste específico del total proforma */
+#proformaTotal {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #004c91;
+}

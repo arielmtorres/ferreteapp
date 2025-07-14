@@ -1,0 +1,17 @@
+/* components/ventas/ventas.css */
+
+/* Espaciado entre el botón y el contenido */
+#ventas .d-flex {
+  margin-bottom: 1rem;
+}
+
+/* Opcional: Alinear tabla con el botón */
+#ventas .card {
+  margin-top: 0.5rem;
+}
+
+/* Ajuste visual solo para el botón */
+#ventas #btnNuevaVenta {
+  margin-top: 10px;
+  margin-left: 10px;
+}

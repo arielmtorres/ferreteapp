@@ -14,6 +14,10 @@
 <!-- Tus scripts que dependen de Chart.js -->
 <script src="js/ferreteapp.js"></script>
 <script src="components/reportes/assets/script.js"></script>
+<script src="components/ventas/ventas.js"></script>
+<script src="components/ventas/nueva/ventas-nueva.js"></script>
+<script src="components/ventas/imprimir/imprimir.js"></script>
+
 
 
 </body>

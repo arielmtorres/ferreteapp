@@ -1,4 +1,4 @@
-// js/app.js
+// js/ferreteapp.js
 
 document.addEventListener('DOMContentLoaded', () => {
   // Carga la sección inicial y ataja cambios de hash

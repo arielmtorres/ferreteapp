@@ -1,0 +1,48 @@
+/* Ticket solo para impresión y vista previa */
+
+#imprimir-ticket {
+  padding: 2rem;
+}
+
+.ticket-container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.ticket-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.ticket-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ticket-container table th,
+.ticket-container table td {
+  border: 1px solid #333;
+  padding: 8px;
+  text-align: center;
+}
+
+.ticket-container h3 {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+button {
+  margin-top: 1rem;
+  margin-right: 10px;
+}
+
+/* Ajuste para imprimir */
+@media print {
+  #btnVolver,
+  #btnImprimirFinal {
+    display: none;
+  }
+}

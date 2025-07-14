@@ -2,7 +2,10 @@
 // components/ventas/ventas.php
 // Si más adelante quieres proteger la carga desde index.php:
 //if (!defined('FERRETEAPP')) exit;
+
+
 ?>
+<link rel="stylesheet" href="components/ventas/ventas.css">
 <section id="ventas">
   <!-- Botón Nueva Venta -->
   <div class="d-flex justify-content-start mb-3">
