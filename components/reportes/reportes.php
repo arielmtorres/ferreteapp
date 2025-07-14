@@ -1,3 +1,3 @@
 
-<h2>Stock</h2>
+<h2>REPORTES</h2>
 <p>Aquí podra ver reportes</p>
