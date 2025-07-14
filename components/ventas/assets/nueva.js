@@ -1,3 +1,18 @@
+// Cargar beep (pip)
+const audioBeep = new Audio('components/ventas/assets/sound.mp3');
+audioBeep.preload = 'auto';
+audioBeep.volume = 1.0;
+
+function onScanSuccess(decodedText, decodedResult) {
+  // Reproduce pip/beep al leer QR correctamente
+  audioBeep.currentTime = 0;
+  audioBeep.play().catch(()=>{});
+
+  // Tu lógica original:
+  mostrarQRLeido(decodedText);
+}
+
+// ---- INICIALIZACIÓN DE LA VISTA DE NUEVA VENTA ----
 window.initVentasNueva = function () {
   const selectCant = document.getElementById('selectCant');
   if (!selectCant) return;
@@ -35,15 +50,21 @@ window.initVentasNueva = function () {
   });
 
   btnLeerQR.addEventListener("click", () => {
+    // Desbloquea el audio: la primera vez que el usuario toca el botón, el navegador permite reproducir audio después.
+    
+
     qrReaderDiv.style.display = 'block';
     qrJsonDisplay.style.display = 'none';
     btnAceptarQRData.style.display = 'none';
     jsonContentArea.value = '';
 
-    if (qrScanner) {
-      qrScanner.clear().catch(() => {});
-      qrScanner = null;
-    }
+  if (qrScanner) {
+  // Sin catch: si da error, no pasa nada grave
+    qrScanner.clear && qrScanner.clear();
+    qrScanner = null;
+  }
+
+ 
 
     qrScanner = new Html5Qrcode("qr-reader");
 
@@ -51,6 +72,10 @@ window.initVentasNueva = function () {
       { facingMode: "environment" },
       { fps: 10, qrbox: 250 },
       qrCodeMessage => {
+        // ¡Pip!
+        audioBeep.currentTime = 0;
+        audioBeep.play().catch(()=>{});
+
         // Solo permitimos JSON válido
         let json = null;
         try {
@@ -69,21 +94,23 @@ window.initVentasNueva = function () {
         }
       },
       errorMessage => {
-        // Silencioso
+        // Silencioso, pero podrías mostrar error aquí si querés
       }
     ).catch(err => {
       alert("No se pudo acceder a la cámara. Dale permisos o probá en otro navegador.");
     });
   });
 
-  document.getElementById('modalScanOrSearchQR').addEventListener('hidden.bs.modal', function () {
-    if (qrScanner && qrScanner._isScanning) {
-      qrScanner.stop().catch(() => {});
-    }
-    qrReaderDiv.style.display = 'none';
-    document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
-    document.body.classList.remove('modal-open');
-  });
+ document.getElementById('modalScanOrSearchQR').addEventListener('hidden.bs.modal', function () {
+  if (qrScanner) {
+    try { qrScanner.stop(); } catch(e){}
+    qrScanner = null;
+  }
+  qrReaderDiv.style.display = 'none';
+  document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+  document.body.classList.remove('modal-open');
+});
+
 
   // "Aceptar" después de leer QR
   btnAceptarQRData.addEventListener("click", () => {
@@ -207,6 +234,9 @@ window.initVentasNueva = function () {
   });
 };
 
+// Si usás carga dinámica de componentes, esto inicializa la lógica cuando carga la vista:
 document.addEventListener('DOMContentLoaded', function(){
   if(typeof window.initVentasNueva === 'function') window.initVentasNueva();
 });
+
+// Si tu HTML cambia la vista con JS, asegurate de llamar a window.initVentasNueva() cada vez que cargue el formulario.
