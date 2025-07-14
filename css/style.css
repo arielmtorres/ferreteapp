@@ -19,10 +19,12 @@ header {
   position: relative;
 }
 
-.logo {
-  height: 80px;
-  max-width: 100%;
+.logo-header {
+  height: 90px;
+  
+ 
 }
+
 
 .menu-toggle {
   display: none;

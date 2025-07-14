@@ -60,3 +60,50 @@
   font-weight: bold;
   color: #004c91;
 }
+
+
+/* Modal imagen temporal (fondo oscuro fuerte) */
+#modalImagenTemporal .modal-content {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+}
+.modal-backdrop.show {
+  opacity: 0.9;
+  background: #000;
+}
+
+
+
+
+.factura-imprimir {
+max-width: 350px;
+margin: 0 auto;
+background: #fff;
+border-radius: 13px;
+padding: 1rem 1.2rem 1.2rem 1.2rem;
+font-family: 'Segoe UI', Arial, sans-serif;
+box-shadow: 0 3px 16px #0001;
+}
+@media print {
+.modal-content, .modal-dialog, .factura-modal-content {
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+}
+.factura-imprimir {
+  border: 2px dashed #bdbdbd !important;
+  background: #fafafa !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  max-width: 340px !important;
+  box-shadow: none !important;
+  color: #000 !important;
+}
+.modal-footer, .btn, nav, header, footer, .d-print-none {
+  display: none !important;
+}
+
+}
+

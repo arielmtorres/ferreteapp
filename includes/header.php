@@ -14,12 +14,12 @@ if (!defined('FERRETEAPP')) exit;
 
 
 
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
   <header>
     <div class="header-left">
-      <img src="img/logoF.png" alt="Logo" class="logo" />
+      <img src="img/headerlogo.png" alt="Logo" class="logo-header" />
     </div>
 
     <button class="menu-toggle" aria-label="Abrir menú">

@@ -15,6 +15,8 @@ window.initVentasNueva = function () {
   const inputCosto = document.getElementById('inputCosto');
   const btnCancelar = document.getElementById('btnCancelarVenta');
   const busqInput = document.getElementById('busquedaProducto');
+  const qrReaderDiv = document.getElementById('qr-reader');
+  const modalQR = document.getElementById('modalScanOrSearchQR');
 
   let productoSeleccionado = null;
   let totalGlobal = 0;
@@ -27,14 +29,13 @@ window.initVentasNueva = function () {
   }
 
   btnBuscar.addEventListener("click", () => {
-    document.getElementById('qr-reader').style.display = 'none';
+    qrReaderDiv.style.display = 'none';
     qrJsonDisplay.style.display = 'none';
     btnAceptarQRData.style.display = 'none';
     jsonContentArea.value = '';
   });
 
   btnLeerQR.addEventListener("click", () => {
-    const qrReaderDiv = document.getElementById('qr-reader');
     qrReaderDiv.style.display = 'block';
     qrJsonDisplay.style.display = 'none';
     btnAceptarQRData.style.display = 'none';
@@ -81,14 +82,25 @@ window.initVentasNueva = function () {
     }
     const qrReaderDiv = document.getElementById('qr-reader');
     qrReaderDiv.style.display = 'none';
+    // Limpia overlay si queda colgado
+    document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+    document.body.classList.remove('modal-open');
   });
 
+  // ✅ "Aceptar" después de leer QR: NO navega ni recarga, solo cierra modal y limpia overlays
   btnAceptarQRData.addEventListener("click", () => {
+    let raw = jsonContentArea.value
+      .replace(/^[^{]*/, '')   // Quita lo anterior al primer {
+      .replace(/[^}]*$/, '');  // Quita lo posterior al último }
     let jsonDatos = null;
     try {
-      jsonDatos = JSON.parse(jsonContentArea.value);
+      jsonDatos = JSON.parse(raw);
       mostrarProductoEnPantalla(jsonDatos);
       bootstrap.Modal.getInstance(document.getElementById("modalScanOrSearchQR")).hide();
+      setTimeout(() => {
+        document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+        document.body.classList.remove('modal-open');
+      }, 350);
     } catch (e) {
       jsonContentArea.value = "Error: JSON inválido. Revisá el formato.";
       btnAceptarQRData.style.display = 'none';
@@ -116,7 +128,6 @@ window.initVentasNueva = function () {
   inputCosto.addEventListener("input", actualizarTotalVista);
 
   btnAdj.addEventListener("click", () => {
-    console.log('btnAdj click');
     if (!productoSeleccionado) {
       alert("Selecciona un producto primero");
       return;
@@ -135,14 +146,7 @@ window.initVentasNueva = function () {
     tablaBody.appendChild(tr);
     proformaTotal.textContent = "$" + totalGlobal.toLocaleString();
 
-    // Debug AJAX
-    console.log("Enviando a guardar_producto.php", {
-      producto: productoSeleccionado.producto,
-      ubicacion: productoSeleccionado.ubicacion,
-      precio: costo,
-      cantidad: cant
-    });
-
+    // Simula guardar producto vía AJAX
     fetch('components/ventas/guardar_producto.php', {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -153,20 +157,14 @@ window.initVentasNueva = function () {
         cantidad: cant
       })
     })
-    .then(r => {
-      console.log('Respuesta cruda:', r);
-      return r.json();
-    })
+    .then(r => r.json())
     .then(res => {
-      console.log("Respuesta AJAX:", res);
-      if(res.success){
-        // alert('Producto guardado en base de datos');
-      } else {
+      if (!res.success) {
         alert("No se pudo guardar en la base: " + (res.error || "Error desconocido"));
       }
     })
     .catch(err => {
-      alert("Error AJAX: " + err);
+      // alert("Error AJAX: " + err);
     });
 
     productoSeleccionado = null;
@@ -188,3 +186,5 @@ window.initVentasNueva = function () {
 document.addEventListener('DOMContentLoaded', function(){
   if(typeof window.initVentasNueva === 'function') window.initVentasNueva();
 });
+
+
