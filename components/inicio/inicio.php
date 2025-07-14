@@ -1,5 +1,6 @@
-
-<br><br>
+<br>
+<center><h2>Bienvenido</h2></center>
+<br>
 <section id="inicio">
 <!-- Bajo stock -->
   <div class="col-md-12">
