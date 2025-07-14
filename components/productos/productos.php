@@ -1,6 +1,6 @@
 <div id="productos-section" class="container py-4">
 
-<<<<<<< HEAD
+
   <!-- Título principal -->
   <h2 class="mb-4">🛠️ Productos</h2>
 
@@ -195,6 +195,8 @@
 
 </div>
 =======
+=======
+>>>>>>> a1ef8c43fee3d2bc226a6315261f826c21614d85
 <h2>PRODUCTOS</h2>
 <p>Aquí podra ver reportes</p>
 >>>>>>> a1ef8c43fee3d2bc226a6315261f826c21614d85
