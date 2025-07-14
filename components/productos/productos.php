@@ -13,7 +13,7 @@
 
     <div class="table-responsive">
     <table class="table table-bordered table-hover" id="tabla-productos">
-     <thead class="table-light text-center">
+    <thead class="table-light text-center">
     <tr>
       <th>ID</th>
       <th>Nombre</th>
