@@ -1,18 +1,25 @@
-<?php
-// components/ventas/ventas.php
-// Si más adelante quieres proteger la carga desde index.php:
-//if (!defined('FERRETEAPP')) exit;
+<link rel="stylesheet" href="components/ventas/assets/ventas.css">
 
-
-?>
-<link rel="stylesheet" href="components/ventas/ventas.css">
 <section id="ventas">
-  <!-- Botón Nueva Venta -->
-  <div class="d-flex justify-content-start mb-3">
+  
+
+
+
+
+<div class="d-flex justify-content-start mb-3">
     <button id="btnNuevaVenta" class="btn btn-primary">+ Nueva venta</button>
   </div>
+    <select id="filtroVendedor" class="form-select form-select-sm">
+      <option value="">Todos los vendedores</option>
+    </select>
+    <button id="btnExportPDF" class="btn btn-outline-danger btn-sm">PDF</button>
+    <button id="btnExportExcel" class="btn btn-outline-success btn-sm">Excel</button>
+  </div>
+</div>
 
-  <!-- Historial de ventas -->
+
+
+
   <div class="card">
     <div class="card-header">
       <h5 class="mb-0">Historial de ventas</h5>
@@ -27,13 +34,10 @@
             <th>Detalle</th>
           </tr>
         </thead>
-        <tbody id="ventasTableBody">
-          <!-- Se rellenará con JS -->
-        </tbody>
+        <tbody id="ventasTableBody"></tbody>
       </table>
     </div>
   </div>
 </section>
 
-<!-- Lógica específica de Ventas -->
-<script src="../../components/ventas/ventas.js"></script>
+<script src="components/ventas/assets/ventas.js"></script>

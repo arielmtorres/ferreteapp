@@ -1,0 +1,22 @@
+[
+  {
+    "producto": "Taladro 500W",
+    "precio": 8500,
+    "ubicacion": "A1"
+  },
+  {
+    "producto": "Llave Francesa",
+    "precio": 2100,
+    "ubicacion": "B2"
+  },
+  {
+    "producto": "Cinta Métrica",
+    "precio": 900,
+    "ubicacion": "C3"
+  },
+  {
+    "producto": "Tornillo M3",
+    "precio": 50,
+    "ubicacion": "C1"
+  }
+]

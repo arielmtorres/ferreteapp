@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
 });
 
+
+
+
+
+
 function navigate() {
   // #/inicio → 'inicio', o 'inicio' si no hay hash
   const page = location.hash.replace(/^#\//, '') || 'inicio';
