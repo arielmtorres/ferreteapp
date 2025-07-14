@@ -3,6 +3,7 @@
   <div class="row g-4">
 
 <<<<<<< HEAD
+
     <!-- Total productos -->
     <div class="col-md-4">
       <div class="card border-0 shadow-sm">
@@ -118,6 +119,7 @@
 
 </section>
 =======
+>>>>>>>>> Temporary merge branch 2
 <h2>REPORTES</h2>
 <p>Aquí podra ver reportes</p>
 >>>>>>> a1ef8c43fee3d2bc226a6315261f826c21614d85
