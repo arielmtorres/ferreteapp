@@ -1,5 +1,3 @@
-// components/ventas/assets/nueva.js
-
 window.initVentasNueva = function () {
   const selectCant = document.getElementById('selectCant');
   if (!selectCant) return;
@@ -10,16 +8,17 @@ window.initVentasNueva = function () {
   const jsonContentArea = document.getElementById('jsonContentArea');
   const btnAceptarQRData = document.getElementById('btnAceptarQRData');
   const btnAdj = document.getElementById('btnAdjuntar');
-  const tablaBody = document.getElementById('tablaVentaTicket');
+  const detalleBody = document.getElementById('detalleProductosBody');
   const proformaTotal = document.getElementById('proformaTotal');
   const inputCosto = document.getElementById('inputCosto');
   const btnCancelar = document.getElementById('btnCancelarVenta');
-  const busqInput = document.getElementById('busquedaProducto');
   const qrReaderDiv = document.getElementById('qr-reader');
   const modalQR = document.getElementById('modalScanOrSearchQR');
+  const busqInput = document.getElementById('busquedaProducto');
 
   let productoSeleccionado = null;
   let totalGlobal = 0;
+  let productosDetalle = []; // array para los productos adjuntados
   let qrScanner = null;
 
   // Inicializar cantidades
@@ -114,12 +113,13 @@ window.initVentasNueva = function () {
   }
 
   function actualizarTotalVista() {
-    if (!inputCosto.value) return;
-    const cant = +selectCant.value;
-    const costo = +inputCosto.value;
-    const tot = cant * costo;
-    proformaTotal.textContent = "$" + tot.toLocaleString();
+    let total = 0;
+    productosDetalle.forEach(p => {
+      total += p.cantidad * p.precio;
+    });
+    proformaTotal.textContent = "$" + total.toLocaleString();
   }
+
   selectCant.addEventListener("change", actualizarTotalVista);
   inputCosto.addEventListener("input", actualizarTotalVista);
 
@@ -131,18 +131,18 @@ window.initVentasNueva = function () {
     const cant = +selectCant.value;
     const costo = +inputCosto.value;
     const subtotal = cant * costo;
-    totalGlobal += subtotal;
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${productoSeleccionado.producto || ''}</td>
-      <td>${productoSeleccionado.ubicacion || ''}</td>
-      <td>${cant}</td>
-      <td>$${costo.toLocaleString()}</td>
-      <td>$${subtotal.toLocaleString()}</td>`;
-    tablaBody.appendChild(tr);
-    proformaTotal.textContent = "$" + totalGlobal.toLocaleString();
 
-    // Simula guardar producto vía AJAX
+    // Agrega al array
+    productosDetalle.push({
+      producto: productoSeleccionado.producto,
+      ubicacion: productoSeleccionado.ubicacion,
+      cantidad: cant,
+      precio: costo
+    });
+    // Actualiza tabla visual
+    renderDetalleProductos();
+
+    // Simula guardar producto vía AJAX (podés comentar esto si solo querés que se guarde al final)
     fetch('components/ventas/guardar_producto.php', {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -163,12 +163,43 @@ window.initVentasNueva = function () {
       // alert("Error AJAX: " + err);
     });
 
+    // Limpiar campos
     productoSeleccionado = null;
     document.getElementById("busquedaProducto").value = '';
     inputCosto.value = '';
     selectCant.value = 1;
     actualizarTotalVista();
   });
+
+  // Función para renderizar la tabla de productos adjuntados
+  function renderDetalleProductos() {
+    detalleBody.innerHTML = '';
+    let total = 0;
+    productosDetalle.forEach((prod, i) => {
+      let subtotal = prod.cantidad * prod.precio;
+      total += subtotal;
+      let tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${prod.producto || ''}</td>
+        <td>${prod.ubicacion || ''}</td>
+        <td>${prod.cantidad}</td>
+        <td>$${prod.precio.toLocaleString()}</td>
+        <td>$${subtotal.toLocaleString()}</td>
+        <td><button class="btn btn-danger btn-sm btnQuitarProd" data-idx="${i}">&times;</button></td>
+      `;
+      detalleBody.appendChild(tr);
+    });
+    proformaTotal.textContent = "$" + total.toLocaleString();
+
+    // Eventos para quitar productos
+    detalleBody.querySelectorAll('.btnQuitarProd').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const idx = parseInt(this.getAttribute('data-idx'));
+        productosDetalle.splice(idx, 1);
+        renderDetalleProductos();
+      });
+    });
+  }
 
   btnCancelar?.addEventListener("click", () => {
     location.hash = "#/ventas";
