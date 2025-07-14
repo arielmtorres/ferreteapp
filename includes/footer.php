@@ -10,6 +10,7 @@
   
 <!-- Chart.js PRIMERO -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 
 <!-- Tus scripts que dependen de Chart.js -->
 <script src="js/ferreteapp.js"></script>
