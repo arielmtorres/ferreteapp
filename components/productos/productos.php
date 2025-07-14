@@ -12,63 +12,68 @@
     </div>
 
     <div class="table-responsive">
-      <table class="table table-bordered table-hover" id="tabla-productos">
-        <thead class="table-light text-center">
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Marca</th>
-            <th>Categoría</th>
-            <th>Precio</th>
-            <th>QR</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody class="text-center">
-          <tr>
-            <td>PROD-001</td>
-            <td>Taladro 500W</td>
-            <td>Black+Decker</td>
-            <td>Herramientas eléctricas</td>
-            <td>$8,500</td>
-            <td>
-              <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ver-qr">📱 Ver QR</button>
-            </td>
-            <td>
-              <button class="btn btn-sm btn-warning">Editar</button>
-              <button class="btn btn-sm btn-danger">Borrar</button>
-            </td>
-          </tr>
-          <tr>
-            <td>PROD-002</td>
-            <td>Llave francesa 10”</td>
-            <td>Tramontina</td>
-            <td>Herramientas manuales</td>
-            <td>$2,100</td>
-            <td>
-            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ver-qr">📱 Ver QR</button>
-            </td>
-            <td>
-              <button class="btn btn-sm btn-warning">Editar</button>
-              <button class="btn btn-sm btn-danger">Borrar</button>
-            </td>
-          </tr>
-          <tr>
-            <td>PROD-003</td>
-            <td>Cinta métrica 5m</td>
-            <td>Irwin</td>
-            <td>Medición</td>
-            <td>$900</td>
-            <td>
-            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ver-qr">📱 Ver QR</button>
-            </td>
-            <td>
-              <button class="btn btn-sm btn-warning">Editar</button>
-              <button class="btn btn-sm btn-danger">Borrar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <table class="table table-bordered table-hover" id="tabla-productos">
+     <thead class="table-light text-center">
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Marca</th>
+      <th>Categoría</th>
+      <th>Precio</th>
+      <th>Ubicación</th> <!-- 🔹 NUEVA COLUMNA -->
+      <th>QR</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody class="text-center">
+    <tr>
+      <td>PROD-001</td>
+      <td>Taladro 500W</td>
+      <td>Black+Decker</td>
+      <td>Herramientas eléctricas</td>
+      <td>$8,500</td>
+      <td>A1</td> <!-- 🔹 NUEVO VALOR -->
+      <td>
+        <button class="btn btn-outline-secondary btn-sm">📱 Ver QR</button>
+      </td>
+      <td>
+        <button class="btn btn-sm btn-warning">Editar</button>
+        <button class="btn btn-sm btn-danger">Borrar</button>
+      </td>
+    </tr>
+    <tr>
+      <td>PROD-002</td>
+      <td>Llave francesa 10”</td>
+      <td>Tramontina</td>
+      <td>Herramientas manuales</td>
+      <td>$2,100</td>
+      <td>B2</td> <!-- 🔹 NUEVO VALOR -->
+      <td>
+        <button class="btn btn-outline-secondary btn-sm">📱 Ver QR</button>
+      </td>
+      <td>
+        <button class="btn btn-sm btn-warning">Editar</button>
+        <button class="btn btn-sm btn-danger">Borrar</button>
+      </td>
+    </tr>
+    <tr>
+      <td>PROD-003</td>
+      <td>Cinta métrica 5m</td>
+      <td>Irwin</td>
+      <td>Medición</td>
+      <td>$900</td>
+      <td>C3</td> <!-- 🔹 NUEVO VALOR -->
+      <td>
+        <button class="btn btn-outline-secondary btn-sm">📱 Ver QR</button>
+      </td>
+      <td>
+        <button class="btn btn-sm btn-warning">Editar</button>
+        <button class="btn btn-sm btn-danger">Borrar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
     </div>
   </section>
 
