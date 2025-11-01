@@ -7,7 +7,7 @@ $id = $_GET['id'] ?? null;
 
 if (!$id) {
     $_SESSION['error'] = "ID de ingreso no válido";
-    header("Location: /ferreteapp/#/egresosEingresos");
+    header("Location: /ferreteApp/components/egresosEingresos/egresosEingresos.php");
     exit();
 }
 
@@ -16,11 +16,11 @@ try {
     $stmt->execute([':id' => $id]);
 
     $_SESSION['success'] = "delete-ingreso";
-    header("Location: /ferreteapp/#/egresosEingresos");
+    header("Location: /ferreteApp/components/egresosEingresos/egresosEingresos.php");
     exit();
 
 } catch (PDOException $e) {
     $_SESSION['error'] = "Error al eliminar el ingreso: " . $e->getMessage();
-    header("Location: /ferreteapp/#/egresosEingresos");
+    header("Location: /ferreteApp/components/egresosEingresos/egresosEingresos.php");
     exit();
 }

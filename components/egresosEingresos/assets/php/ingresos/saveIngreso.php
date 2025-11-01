@@ -61,7 +61,7 @@ try {
    $action = $id ? "update-ingreso" : "insert-ingreso";
 
     $_SESSION['success'] = $action; // guardo en sesión
-    header("Location: /ferreteapp/#/egresosEingresos");
+    header("Location: /ferreteApp/components/egresosEingresos/egresosEingresos.php");
     exit();
 } catch(PDOException $e) {
     echo "Error: " . $e->getMessage();

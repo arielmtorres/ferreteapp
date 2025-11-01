@@ -35,7 +35,7 @@
           <a href="/ferreteApp/#/caja"  class="btn btn-link">Caja</a>
           <a href="/ferreteApp/#/productos"  class="btn btn-link">Productos</a>
           <a href="/ferreteApp/#/stock"      class="btn btn-link">Stock</a>
-          <a href="/ferreteApp/#/egresosEingresos"  class="btn btn-link">Egresos/Ingresos</a>
+          <a href="/ferreteApp/components/egresosEingresos/egresosEingresos.php"  class="btn btn-link">Egresos/Ingresos</a>
           <a href="/ferreteApp/#/ventas"     class="btn btn-link">Ventas</a>
           <a href="/ferreteApp/#/reportes"   class="btn btn-link">Reportes</a>
           <a href="/ferreteApp/#/usuarios"   class="btn btn-link">Usuarios</a>
@@ -140,10 +140,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
                       <!-- Botón de Editar -->
                       
                       <!-- Botón -->
-                        <form method="POST" action="/ferrete/#/egresosEingresos" style="display:inline;">
-                            <input type="hidden" name="id_ingreso" value="<?php echo $row['id_ingreso']; ?>">
-                            <button type="submit" class="btn btn-warning btn-sm">Editar</button>
-                        </form>
+                    <button 
+                      class="btn btn-warning btn-sm btn-editar" 
+                      data-id="<?php echo $row['id_ingreso']; ?>">
+                      Editar
+                    </button>
+
+
 
 
 
@@ -368,8 +371,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
 
 
 
-<!-- Tu script para modal -->
-<script src="js/ferreteapp.js"></script>
+
 
 
 <script src="/ferreteApp/components/egresosEingresos/assets/js/ingreso.js"></script>
