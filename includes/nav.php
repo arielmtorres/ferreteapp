@@ -7,5 +7,5 @@
   <a href="/ferreteApp/components/egresosEingresos/egresosEingresos.php"  class="btn btn-link">Egresos/Ingresos</a>
   <a href="#/ventas"     class="btn btn-link">Ventas</a>
   <a href="#/reportes"   class="btn btn-link">Reportes</a>
-  <a href="#/usuarios"   class="btn btn-link">Usuarios</a>
+  <a href="/ferreteApp/components/usuarios/usuarios.php"   class="btn btn-link">Usuarios</a>
 </nav>
