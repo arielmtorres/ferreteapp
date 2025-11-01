@@ -79,6 +79,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
                     if ($success === "insert-ingreso") echo "Ingreso agregado correctamente.";
                     elseif ($success === "update-ingreso") echo "Ingreso actualizado correctamente.";
                     elseif ($success === "delete-ingreso") echo "Ingreso eliminado correctamente.";
+                    elseif ($success === "insert-egreso") echo "Egreso agregado correctamente.";
+                    elseif ($success === "update-egreso") echo "Egreso actualizado correctamente.";
+                    elseif ($success === "delete-egreso") echo "Egreso eliminado correctamente.";
+
+                    elseif ($success === "insert-categoria-egreso") echo "Categoria de egreso agregada correctamente.";
+                    elseif ($success === "update-categoria-egreso") echo "Categoria de egreso actualizada correctamente.";
+                    elseif ($success === "delete-categoria-egreso") echo "Categoria de egreso eliminada correctamente.";
+
+                   elseif ($success === "insert-categoria-ingreso") echo "Categoria de ingreso agregada correctamente.";
+                    elseif ($success === "update-categoria-ingreso") echo "Categoria de ingreso actualizada correctamente.";
+                    elseif ($success === "delete-categoria-ingreso") echo "Categoria de ingreso eliminada correctamente.";
+                    
                 ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -116,11 +128,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
         <tr>
           <th>Fecha</th>
           <th>Categoría</th>
-          <th>Concepto</th>
+          <th>Descripción</th>
           <th>Monto</th>
           <th>Responsable</th>
           <th>Factura</th>
-          <th>Observaciones</th>
+          <th>Método de pago</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -141,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
                       
                       <!-- Botón -->
                     <button 
-                      class="btn btn-warning btn-sm btn-editar" 
+                      class="btn btn-warning btn-sm btn-editar-ingreso" 
                       data-id="<?php echo $row['id_ingreso']; ?>">
                       Editar
                     </button>
@@ -175,38 +187,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
 
 
   <!-- Tabla de Egresos -->
- <section class="mb-5">
+<!-- ======== EGRESOS ======== -->
+ <?php include 'assets/php/egresos/getEgresos.php'; ?>
+<section class="mb-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="mb-0">📤 Egresos</h3>
-    <button class="btn btn-success btn-sm">+ Agregar Egreso</button>
+    <h3 class="mb-0">💸 Egresos</h3>
+    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalEgreso">
+      + Agregar Egreso
+    </button>
   </div>
 
   <div class="table-responsive">
-    <table class="table table-bordered table-hover" id="tabla-egresos">
+    <table class="table table-bordered table-hover">
       <thead class="table-light text-center">
         <tr>
           <th>Fecha</th>
           <th>Categoría</th>
-          <th>Concepto</th>
+          <th>Descripción</th>
           <th>Monto</th>
           <th>Responsable</th>
           <th>Factura</th>
-          <th>Observaciones</th>
+          <th>Método de pago</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody class="text-center">
-        <?php include 'assets/php/egresos/getEgresos.php'; ?>
+        <?php if (isset($errorMsg)): ?>
+          <tr><td colspan="8">Error: <?php echo htmlspecialchars($errorMsg); ?></td></tr>
+
+        <?php elseif (empty($egresos)): ?>
+          <tr><td colspan="8">No hay egresos registrados.</td></tr>
+
+        <?php else: ?>
+          <?php foreach ($egresos as $row): ?>
+            <tr>
+              <td><?php echo htmlspecialchars($row['fecha']); ?></td>
+              <td><?php echo htmlspecialchars($row['categoria']); ?></td>
+              <td><?php echo htmlspecialchars($row['descripcion']); ?></td>
+              <td>$<?php echo number_format($row['monto'], 2); ?></td>
+              <td><?php echo htmlspecialchars($row['responsable']); ?></td>
+              <td><?php echo $row['nro_factura'] ?: "-"; ?></td>
+              
+              <td><?php echo htmlspecialchars($row['metodo_pago']); ?></td>
+              <td>
+                <button 
+                  class="btn btn-warning btn-sm btn-editar-egreso" 
+                  data-id="<?php echo $row['id_egreso']; ?>">
+                  Editar
+                </button>
+
+                <a href="/ferreteApp/components/egresosEingresos/assets/php/egresos/deleteEgreso.php?id=<?php echo $row['id_egreso']; ?>" 
+                  class="btn btn-danger btn-sm"
+                  onclick="return confirm('¿Seguro que deseas eliminar este egreso?');">
+                  Eliminar
+                </a>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php endif; ?>
       </tbody>
     </table>
   </div>
 </section>
 
-
+ <?php include 'assets/php/categoriaIngreso/getCategoriasIngresos.php'; ?>
 <section class="mb-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="mb-0">📈 Categorías de Ingresos</h3>
-    <button class="btn btn-success btn-sm">+ Agregar Categoría</button>
+    <button class="btn btn-success btn-sm" id="btnAgregarCategoriaIngreso">+ Agregar Categoría</button>
+
   </div>
 
   <div class="table-responsive">
@@ -216,24 +265,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
           <th>ID</th>
           <th>Nombre</th>
           <th>Descripción</th>
+          <th>Responsable</th>
           <th>Acciones</th>
+          
         </tr>
       </thead>
-
       <tbody class="text-center">
-        <?php include 'assets/php/categorias/getCategoriasIngresos.php'; ?>
-      </tbody>
+        <?php
+        // Traemos los datos usando el archivo que hace la consulta
+       
+        
 
+        if (!empty($categorias)) {
+          foreach ($categorias as $cat) {
+              echo '
+                  <tr>
+                      <td>'.$cat['id_categoria_ingreso'].'</td>
+                      <td>'.$cat['nombre'].'</td>
+                      <td>'.$cat['descripcion'].'</td>
+                      <td>'.($cat['responsable'] ?? 'Sin responsable').'</td>
+
+                      <td>
+                        <button class="btn btn-warning btn-sm" onclick="editarCategoria('.$cat['id_categoria_ingreso'].')">Editar</button>
+                        <a href="/ferreteApp/components/egresosEingresos/assets/php/categoriaIngreso/deleteCategoriaIngreso.php?id='.$cat['id_categoria_ingreso'].'" 
+                          class="btn btn-danger btn-sm"
+                          onclick="return confirm(\'¿Seguro que deseas eliminar esta categoría?\');">
+                          Borrar
+                        </a>
+                      </td>
+                  </tr>
+              ';
+          }
+      } else {
+          echo '<tr><td colspan="5">No hay categorías registradas</td></tr>';
+      }
+
+        ?>
+      </tbody>
     </table>
   </div>
 </section>
 
 
 
+
 <section class="mb-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h3 class="mb-0">📉 Categorías de Egresos</h3>
-    <button class="btn btn-success btn-sm">+ Agregar Categoría</button>
+    <button class="btn btn-success btn-sm"  id="btnAgregarCategoriaEgreso">+ Agregar Categoría</button>
   </div>
 
   <div class="table-responsive">
@@ -243,11 +322,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
           <th>ID</th>
           <th>Nombre</th>
           <th>Descripción</th>
+          <th>Responsable</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody class="text-center">
-        <?php include 'assets/php/categorias/getCategoriasEgresos.php'; ?>
+        <?php include 'assets/php/categoriaEgreso/getCategoriasEgresos.php'; ?>
+
+
+
+        <?php
+          if (!empty($categoriasEgreso)) {
+              foreach ($categoriasEgreso as $cat) {
+                  echo '<tr data-id="' . $cat['id_categoria_egreso'] . '">
+                          <td>' . $cat['id_categoria_egreso'] . '</td>
+                          <td>' . $cat['nombre'] . '</td>
+                          <td>' . $cat['descripcion'] . '</td>
+                          <td>' . ($cat['responsable'] ?? 'Sin responsable') . '</td>
+                          <td>
+                              <button class="btn btn-warning btn-sm" onclick="editarCategoriaEgreso(' . $cat['id_categoria_egreso'] . ')">Editar</button>
+                              <button class="btn btn-danger btn-sm" onclick="borrarCategoriaEgreso(' . $cat['id_categoria_egreso'] . ')">Borrar</button>
+                          </td>
+                      </tr>';
+              }
+          } else {
+              echo "<tr><td colspan='5'>No hay categorías registradas</td></tr>";
+          }
+          ?>
+
       </tbody>
     </table>
   </div>
@@ -329,6 +431,168 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
 </div>
 
 
+<!-- Modal Egresos (Agrega y Edita) -->
+<div class="modal fade" id="modalEgreso" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="formEgreso" action="/ferreteApp/components/egresosEingresos/assets/php/egresos/saveEgreso.php" method="POST">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloModalEgreso">Agregar Egreso</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="hidden" id="id_egreso" name="id_egreso">
+
+          <div class="mb-3">
+            <label>Categoría</label>
+            <select class="form-control" name="id_categoria_egreso" id="id_categoria_egreso" required>
+              <option value="">Seleccionar</option>
+              <?php
+              $stmt = $pdo->query("SELECT id_categoria_egreso, nombre FROM categorias_egresos ORDER BY nombre ASC");
+              while($cat = $stmt->fetch(PDO::FETCH_ASSOC)){
+                  echo "<option value='{$cat['id_categoria_egreso']}'>{$cat['nombre']}</option>";
+              }
+              ?>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label>Descripción</label>
+            <textarea class="form-control" name="descripcion" id="descripcion_egreso" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label>Monto</label>
+            <input type="number" step="0.01" class="form-control" name="monto" id="monto_egreso" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Responsable</label>
+            <select class="form-control" name="id_usuario" id="id_usuario_egreso" required>
+              <option value="">Seleccionar</option>
+              <?php
+              $stmt = $pdo->query("SELECT id_usuario, user FROM usuarios ORDER BY user ASC");
+              while($u = $stmt->fetch(PDO::FETCH_ASSOC)){
+                  echo "<option value='{$u['id_usuario']}'>{$u['user']}</option>";
+              }
+              ?>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label>Método de pago</label>
+            <select class="form-control" name="metodo_pago" id="metodo_pago_egreso" required>
+              <option value="">Seleccionar</option>
+              <option value="Efectivo">Efectivo</option>
+              <option value="Transferencia">Transferencia</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label>N° de factura</label>
+            <input type="text" class="form-control" name="nro_factura" id="nro_factura_egreso">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" id="btnGuardarEgreso">Guardar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Categoría Ingreso -->
+<div class="modal fade" id="modalCategoriaIngreso" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="formCategoriaIngreso" action="/ferreteApp/components/egresosEingresos/assets/php/categoriaIngreso/saveCategoriaIngreso.php" method="POST">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloModalCategoriaIngreso">Agregar Categoría</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id_categoria_ingreso" id="id_categoria_ingreso">
+          <div class="mb-3">
+            <label>Nombre</label>
+            <input type="text" class="form-control" name="nombre" id="nombre_categoria" required>
+          </div>
+          <div class="mb-3">
+            <label>Descripción</label>
+            <textarea class="form-control" name="descripcion" id="descripcion_categoria"></textarea>
+          </div>
+          <div class="mb-3">
+          <label>Responsable</label>
+          <select class="form-control" name="id_usuario" id="id_usuario_categoria" required>
+            <option value="">Seleccionar</option>
+            <?php
+            $stmt = $pdo->query("SELECT id_usuario, user FROM usuarios ORDER BY user ASC");
+            while ($u = $stmt->fetch(PDO::FETCH_ASSOC)){
+                echo "<option value='{$u['id_usuario']}'>{$u['user']}</option>";
+            }
+            ?>
+          </select>
+        </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" id="btnGuardarCategoria">Guardar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+        
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- Modal Categoría Egreso -->
+<div class="modal fade" id="modalCategoriaEgreso" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="formCategoriaEgreso" action="/ferreteApp/components/egresosEingresos/assets/php/categoriaEgreso/saveCategoriaEgreso.php" method="POST">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloModalCategoriaEgreso">Agregar Categoría</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id_categoria_egreso" id="id_categoria_egreso_modal">
+
+          <div class="mb-3">
+            <label>Nombre</label>
+            <input type="text" class="form-control" name="nombre" id="nombre_categoria_egreso" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Descripción</label>
+            <textarea class="form-control" name="descripcion" id="descripcion_categoria_egreso"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label>Responsable</label>
+            <select class="form-control" name="id_usuario" id="id_usuario_categoria_egreso" required>
+              <option value="">Seleccionar</option>
+              <?php
+              $stmt = $pdo->query("SELECT id_usuario, user FROM usuarios ORDER BY user ASC");
+              while ($u = $stmt->fetch(PDO::FETCH_ASSOC)){
+                  echo "<option value='{$u['id_usuario']}'>{$u['user']}</option>";
+              }
+              ?>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" id="btnGuardarCategoriaEgreso">Guardar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
 
 

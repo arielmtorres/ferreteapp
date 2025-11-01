@@ -19,35 +19,7 @@ try {
     ");
     $stmt->execute();
     $egresos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    if (!$egresos) {
-        echo "<tr><td colspan='8'>No hay egresos registrados</td></tr>";
-        exit;
-    }
-
-    foreach ($egresos as $eg) {
-        $facturaBtn = $eg['nro_factura'] 
-            ? "<button class='btn btn-sm btn-outline-primary'>Ver Factura</button>" 
-            : "—";
-
-        echo "
-            <tr>
-                <td>{$eg['fecha']}</td>
-                <td>{$eg['categoria']}</td>
-                <td>{$eg['descripcion']}</td>
-                <td>$ {$eg['monto']}</td>
-                <td>{$eg['responsable']}</td>
-                <td>{$facturaBtn}</td>
-                <td>{$eg['metodo_pago']}</td>
-                <td>
-                    <button class='btn btn-sm btn-warning' onclick='editarEgreso({$eg['id_egreso']})'>Editar</button>
-                    <button class='btn btn-sm btn-danger' onclick='borrarEgreso({$eg['id_egreso']})'>Borrar</button>
-                </td>
-            </tr>
-        ";
-    }
-
 } catch (PDOException $e) {
-    echo "<tr><td colspan='8'>Error: ".$e->getMessage()."</td></tr>";
+    $errorMsg = $e->getMessage();
 }
 ?>
