@@ -22,14 +22,13 @@
  <section class="mb-5">
 
   <!-- Botón azul + Nueva Venta -->
-  <div class="mb-3">
-    <button class="btn btn-primary">+ Nueva Venta</button>
-  </div>
+  
 
   <!-- Barra de búsqueda y botón de escanear QR -->
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <input type="text" class="form-control me-2" placeholder="🔍 Buscar producto..." id="busqueda-producto" style="max-width: 85%;">
+    <input type="text" class="form-control me-2" placeholder="🔍 Buscar producto..." id="busqueda-producto" style="max-width: 80%; ">
     <button class="btn btn-outline-primary "  > Escanear QR</button>
+    <button class="btn btn-primary">+ Nueva Venta</button>
   </div>
 
   <!-- Tabla de productos -->
