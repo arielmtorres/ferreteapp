@@ -9,16 +9,27 @@
 
 
 header {
-  margin-top: 15px;
+  position: sticky;       /* se queda pegado al hacer scroll */
+  top: 15px;                 /* posición desde el top */
+  z-index: 1000;          /* siempre arriba de otros elementos */
+  
+  margin-top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--primary);
+  
+  background: rgba(238, 144, 56, 0.75); /* naranja semi-transparente */
   color: var(--light);
+  
   padding: 0.75rem 1rem;
   flex-wrap: wrap;
-  position: relative;
+  
+  backdrop-filter: blur(10px) saturate(150%); /* difuso y brillante */
+  -webkit-backdrop-filter: blur(10px) saturate(150%); /* compatibilidad Safari */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* sombra ligera */
+  border-bottom: 1px solid rgba(255,255,255,0.3); /* borde sutil */
 }
+
 
 .logo-header {
   height: 80px;
