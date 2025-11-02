@@ -38,7 +38,7 @@
           <a href="/ferreteApp/components/egresosEingresos/egresosEingresos.php"  class="btn btn-link">Egresos/Ingresos</a>
           <a href="/ferreteApp/#/ventas"     class="btn btn-link">Ventas</a>
           <a href="/ferreteApp/#/reportes"   class="btn btn-link">Reportes</a>
-          <a href="/ferreteApp/#/usuarios"   class="btn btn-link">Usuarios</a>
+          <a href="/ferreteApp/components/usuarios/usuarios.php"   class="btn btn-link">Usuarios</a>
         </nav>
 
     </div>
