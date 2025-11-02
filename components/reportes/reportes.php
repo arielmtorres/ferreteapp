@@ -1,5 +1,5 @@
 <section id="estadisticas" class="my-5">
-  <h2 class="mb-4">📊 Estadísticas</h2>
+  <h2 class="mb-4">📊 Estadísticas prueba</h2>
   <div class="row g-4">
 
 

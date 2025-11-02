@@ -8,9 +8,11 @@ if (!defined('FERRETEAPP')) exit;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FerreteApp - Gestión de Stock</title>
 
-  <!-- Bootstrap + estilos globales -->
- <link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"  rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
 
 
@@ -29,6 +31,13 @@ if (!defined('FERRETEAPP')) exit;
     <div class="user-menu" id="userMenu">
       <?php include __DIR__.'/nav.php'; ?>
     </div>
+
+    <div class="header-right">
+      <span>usuario</span>
+      <img src="img/usuario.png" alt="Usuario" class="logo-header" 
+          onerror="this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png';" />
+    </div>
+
   </header>
 
   <div class="container">
