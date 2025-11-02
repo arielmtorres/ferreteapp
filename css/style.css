@@ -9,6 +9,7 @@
 
 
 header {
+  margin-top: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -20,7 +21,7 @@ header {
 }
 
 .logo-header {
-  height: 90px;
+  height: 80px;
   
  
 }
@@ -61,6 +62,27 @@ nav.menu a:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* espacio entre el nombre y la imagen */
+}
+
+.header-right span {
+  font-weight: 600;
+  color: var(--light);
+}
+
+/* Imagen de usuario */
+.header-right img {
+  width: 40px;         /* ancho fijo */
+  height: 40px;        /* alto fijo */
+  object-fit: cover;   /* ajusta la imagen al contenedor */
+  border-radius: 50%;  /* hace la imagen circular */
+  border: 2px solid var(--light); /* opcional: borde blanco */
+}
+
+
 @media (max-width: 940px) {
   .user-menu {
     display: none;
@@ -89,3 +111,10 @@ nav.menu a:hover {
     display: block;
   }
 }
+
+
+
+
+/*------------NUEVO ------------------*/
+
+

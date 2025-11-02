@@ -31,6 +31,13 @@ if (!defined('FERRETEAPP')) exit;
     <div class="user-menu" id="userMenu">
       <?php include __DIR__.'/nav.php'; ?>
     </div>
+
+    <div class="header-right">
+      <span>usuario</span>
+      <img src="img/usuario.png" alt="Usuario" class="logo-header" 
+          onerror="this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png';" />
+    </div>
+
   </header>
 
   <div class="container">

@@ -42,6 +42,12 @@
         </nav>
 
     </div>
+
+    <div class="header-right">
+      <span>usuario</span>
+      <img src="" alt="Usuario" class="logo-header" 
+          onerror="this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png';" />
+    </div>
   </header>
 
   <div class="container">
@@ -180,3 +186,112 @@
 
 
 <script src="/ferreteApp/components/usuarios/assets/js/usuario.js"></script>
+
+
+
+
+<style>
+  /* Fondo general */
+  body {
+    background-color: #e9e9e9;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #333;
+  }
+
+ 
+
+ 
+
+
+  /* Tabla */
+  .table-container {
+    border-radius: 12px;
+    overflow-x: auto;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: separate; /* permite espacio entre filas */
+    border-spacing: 0 10px; /* separa las filas */
+    background-color: transparent;
+  }
+
+
+/* Header moderno y minimalista */
+.table thead th {
+  background-color: #fafafa; /* fondo muy claro y limpio */
+  color: #333; /* gris oscuro para contraste */
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: left;
+  padding: 16px 18px;
+  border-bottom: 1px solid #e0e0e0; /* línea fina y elegante */
+  letter-spacing: 0.5px; /* un toque de separación */
+}
+
+/* Opcional: efecto sutil al pasar el mouse sobre el header */
+.table thead th:hover {
+  background-color: #f2f2f2;
+}
+
+
+  .table tbody tr {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+  }
+
+  .table tbody tr:hover {
+    background-color: #f9f9f9;
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .table td {
+    padding: 14px 16px;
+    border: none; /* quitamos bordes entre celdas */
+  }
+
+  /* Bordes redondeados en las esquinas de cada fila */
+  .table tbody tr:first-child td:first-child {
+    border-top-left-radius: 10px;
+  }
+  .table tbody tr:first-child td:last-child {
+    border-top-right-radius: 10px;
+  }
+  .table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+  }
+  .table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+  }
+
+  /* Botones dentro de la tabla */
+  .btn {
+    border-radius: 8px;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  .btn-warning {
+    background-color: #ffb300;
+    color: #fff;
+    border: none;
+  }
+
+  .btn-warning:hover {
+    background-color: #ffa000;
+  }
+
+  .btn-danger {
+    background-color: #e53935;
+    color: #fff;
+    border: none;
+  }
+
+  .btn-danger:hover {
+    background-color: #d32f2f;
+  }
+
+</style>

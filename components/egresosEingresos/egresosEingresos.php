@@ -12,6 +12,8 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
 
 
 
@@ -41,6 +43,13 @@
           <a href="/ferreteApp/components/usuarios/usuarios.php"   class="btn btn-link">Usuarios</a>
         </nav>
 
+    </div>
+
+
+    <div class="header-right">
+      <span>usuario</span>
+      <img src="img/usuario.png" alt="Usuario" class="logo-header" 
+          onerror="this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png';" />
     </div>
   </header>
 
@@ -107,20 +116,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
 
 
   <!-- Título principal -->
-  <h2 class="mb-4">Egresos e Ingresos</h2>
+  <h2 class="mb-5">Ingresos y Egresos</h2>
+
 
   <!-- Tabla de Ingresos -->
  <?php include 'assets/php/ingresos/getIngresos.php'; ?>
 
-<section class="mb-5">
+<section class=" mb-5" >
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="mb-0">📥 Ingresos</h3>
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-cash-stack fs-4 text-success"></i>
+      <h3 class="mb-0 fw-semibold text-dark">Ingresos</h3>
+    </div>
 
-    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalIngreso">
-      + Agregar Ingreso
+    <button type="button" class="btn btn-success btn-sm d-flex align-items-center gap-1">
+      <i class="bi bi-plus-lg"></i> Agregar Ingreso
     </button>
-
   </div>
+
+
 
   <div class="table-responsive">
     <table class="table table-bordered table-hover">
@@ -636,7 +650,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
 
 
 
-
+<link rel="stylesheet" href="assets/css/style.css">
 
 <script src="/ferreteApp/components/egresosEingresos/assets/js/ingreso.js"></script>
 
