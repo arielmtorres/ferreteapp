@@ -1,65 +1,44 @@
 <?php
 session_start(); 
-
-
 require __DIR__ . '../../../../../db/db.php';
 
-
-$id = $_POST['id_egreso'] ?? null;
-$categoria = $_POST['id_categoria_egreso'] ?? null;
-$descripcion = $_POST['descripcion'] ?? null;
-$monto = $_POST['monto'] ?? null;
-$responsable = $_POST['id_usuario'] ?? null;
-$metodo = $_POST['metodo_pago'] ?? null;
-$factura = $_POST['nro_factura'] ?? null;
-
-if (!$categoria || !$descripcion || !$monto || !$responsable) {
-    echo "Datos incompletos";
-    exit;
-}
-
 try {
-    if ($id) {
-        // Actualizar egreso existente
-        $stmt = $pdo->prepare("
-            UPDATE egresos SET
-                id_categoria_egreso = :categoria,
-                descripcion = :descripcion,
-                monto = :monto,
-                id_usuario = :responsable,
-                metodo_pago = :metodo,
-                nro_factura = :factura
-            WHERE id_egreso = :id
-        ");
-        $stmt->execute([
-            ':categoria' => $categoria,
-            ':descripcion' => $descripcion,
-            ':monto' => $monto,
-            ':responsable' => $responsable,
-            ':metodo' => $metodo,
-            ':factura' => $factura,
-            ':id' => $id
-        ]);
-        echo "update-egreso";
-    } else {
-        // Insertar nuevo egreso
-        $stmt = $pdo->prepare("
-            INSERT INTO egresos 
-            (id_categoria_egreso, descripcion, monto, id_usuario, metodo_pago, nro_factura, fecha)
-            VALUES
-            (:categoria, :descripcion, :monto, :responsable, :metodo, :factura, CURDATE())
-        ");
-        $stmt->execute([
-            ':categoria' => $categoria,
-            ':descripcion' => $descripcion,
-            ':monto' => $monto,
-            ':responsable' => $responsable,
-            ':metodo' => $metodo,
-            ':factura' => $factura
-        ]);
-        echo "insert-egreso";
+    $id_ingreso = $_POST['id_ingreso'] ?? null;
+    $id_categoria_ingreso = $_POST['id_categoria_ingreso'] ?? null;
+    $descripcion = $_POST['descripcion'] ?? null;
+    $monto = $_POST['monto'] ?? null;
+    $id_usuario = $_POST['id_usuario'] ?? null;
+    $nro_factura = $_POST['nro_factura'] ?? null;
+    $metodo_pago = $_POST['metodo_pago'] ?? null;
+    $fecha = date('Y-m-d');
+
+    if (!$id_categoria_ingreso || !$descripcion || !$monto || !$id_usuario) {
+        $_SESSION['error'] = "Datos incompletos";
+        header("Location: /ferreteApp/components/egresosEingresos/egresosEingresos.php");
+        exit;
     }
 
-} catch(PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    if ($id_ingreso) {
+        // Actualizar ingreso existente
+        $stmt = $pdo->prepare("UPDATE ingresos 
+            SET id_categoria_ingreso=?, descripcion=?, monto=?, id_usuario=?, nro_factura=?, metodo_pago=?, fecha=? 
+            WHERE id_ingreso=?");
+        $stmt->execute([$id_categoria_ingreso, $descripcion, $monto, $id_usuario, $nro_factura, $metodo_pago, $fecha, $id_ingreso]);
+        $_SESSION['success'] = "update-ingreso";
+    } else {
+        // Insertar nuevo ingreso
+        $stmt = $pdo->prepare("INSERT INTO ingresos 
+            (id_categoria_ingreso, descripcion, monto, id_usuario, nro_factura, metodo_pago, fecha)
+            VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$id_categoria_ingreso, $descripcion, $monto, $id_usuario, $nro_factura, $metodo_pago, $fecha]);
+        $_SESSION['success'] = "insert-ingreso";
+    }
+
+    header("Location: /ferreteApp/components/egresosEingresos/egresosEingresos.php");
+    exit;
+
+} catch (Exception $e) {
+    $_SESSION['error'] = "Error al guardar el ingreso: " . $e->getMessage();
+    header("Location: /ferreteApp/components/egresosEingresos/egresosEingresos.php");
+    exit;
 }

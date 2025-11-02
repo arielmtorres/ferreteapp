@@ -48,7 +48,7 @@
 
     <div class="header-right">
       <span>usuario</span>
-      <img src="img/usuario.png" alt="Usuario" class="logo-header" 
+      <img src="" alt="Usuario" class="logo-header" 
           onerror="this.onerror=null;this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png';" />
     </div>
   </header>
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_ingreso'])) {
       <h3 class="mb-0 fw-semibold text-dark">Ingresos</h3>
     </div>
 
-    <button type="button" class="btn btn-success btn-sm d-flex align-items-center gap-1">
+    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalIngreso">
       <i class="bi bi-plus-lg"></i> Agregar Ingreso
     </button>
   </div>
