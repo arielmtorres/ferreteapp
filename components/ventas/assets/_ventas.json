@@ -39,4 +39,4 @@
   { "id": 38,"vendedor": "Yanina",   "productos": ["Llave hexagonal", "Cinta de papel"],             "total": 5200 },
   { "id": 39,"vendedor": "Guillermo","productos": ["Pico de loro", "Pintura Blanca 1L"],             "total": 9800 },
   { "id": 40,"vendedor": "Jose",     "productos": ["Cinta aisladora", "Martillo mango de fibra"],    "total": 4300 }
-]
+

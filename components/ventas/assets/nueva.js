@@ -1,242 +1,181 @@
-// Cargar beep (pip)
-const audioBeep = new Audio('components/ventas/assets/sound.mp3');
-audioBeep.preload = 'auto';
-audioBeep.volume = 1.0;
+// components/ventas/assets/nueva.js
 
-function onScanSuccess(decodedText, decodedResult) {
-  // Reproduce pip/beep al leer QR correctamente
-  audioBeep.currentTime = 0;
-  audioBeep.play().catch(()=>{});
-
-  // Tu lógica original:
-  mostrarQRLeido(decodedText);
-}
-
-// ---- INICIALIZACIÓN DE LA VISTA DE NUEVA VENTA ----
 window.initVentasNueva = function () {
-  const selectCant = document.getElementById('selectCant');
-  if (!selectCant) return;
+  console.log("✅ initVentasNueva (ticket) activo");
 
-  const btnBuscar = document.getElementById('btnBuscarProd');
-  const btnLeerQR = document.getElementById('btnLeerQR');
-  const qrJsonDisplay = document.getElementById('qrJsonDisplay');
-  const jsonContentArea = document.getElementById('jsonContentArea');
-  const btnAceptarQRData = document.getElementById('btnAceptarQRData');
-  const btnAdj = document.getElementById('btnAdjuntar');
-  const detalleBody = document.getElementById('detalleProductosBody');
-  const proformaTotal = document.getElementById('proformaTotal');
-  const inputCosto = document.getElementById('inputCosto');
-  const btnCancelar = document.getElementById('btnCancelarVenta');
-  const qrReaderDiv = document.getElementById('qr-reader');
-  const modalQR = document.getElementById('modalScanOrSearchQR');
-  const busqInput = document.getElementById('busquedaProducto');
+  const inputBuscarProducto = document.getElementById('inputBuscarProducto');
+  const listaResultados = document.getElementById('listaResultadosProductos');
+  const inputCantidad = document.getElementById('inputCantidad');
+  const tablaBody = document.querySelector('#tablaDetalleVenta tbody');
+  const labelTotalVenta = document.getElementById('labelTotalVenta');
+  const inputVendedor = document.getElementById('inputVendedor');
+  const btnAgregarProducto = document.getElementById('btnAgregarProducto');
+  const btnGuardarImprimir = document.getElementById('btnGuardarImprimir');
+  const btnCancelarVenta = document.getElementById('btnCancelarVenta');
 
-  let productoSeleccionado = null;
-  let totalGlobal = 0;
-  let productosDetalle = []; // array para los productos adjuntados
-  let qrScanner = null;
+  let productosCache = {};
+  let detalle = [];
 
-  // Inicializar cantidades
-  selectCant.innerHTML = '';
-  for (let i = 1; i <= 99; i++) {
-    selectCant.innerHTML += `<option value="${i}">${i}</option>`;
-  }
-
-  btnBuscar.addEventListener("click", () => {
-    qrReaderDiv.style.display = 'none';
-    qrJsonDisplay.style.display = 'none';
-    btnAceptarQRData.style.display = 'none';
-    jsonContentArea.value = '';
-  });
-
-  btnLeerQR.addEventListener("click", () => {
-    // Desbloquea el audio: la primera vez que el usuario toca el botón, el navegador permite reproducir audio después.
-    
-
-    qrReaderDiv.style.display = 'block';
-    qrJsonDisplay.style.display = 'none';
-    btnAceptarQRData.style.display = 'none';
-    jsonContentArea.value = '';
-
-  if (qrScanner) {
-  // Sin catch: si da error, no pasa nada grave
-    qrScanner.clear && qrScanner.clear();
-    qrScanner = null;
-  }
-
- 
-
-    qrScanner = new Html5Qrcode("qr-reader");
-
-    qrScanner.start(
-      { facingMode: "environment" },
-      { fps: 10, qrbox: 250 },
-      qrCodeMessage => {
-        // ¡Pip!
-        audioBeep.currentTime = 0;
-        audioBeep.play().catch(()=>{});
-
-        // Solo permitimos JSON válido
-        let json = null;
-        try {
-          json = JSON.parse(qrCodeMessage.trim());
-          qrJsonDisplay.style.display = 'block';
-          jsonContentArea.value = JSON.stringify(json, null, 2);
-          btnAceptarQRData.style.display = 'inline-block';
-
-          qrScanner.stop().then(() => {
-            qrReaderDiv.style.display = 'none';
-          });
-        } catch (e) {
-          jsonContentArea.value = 'El QR leído NO es JSON válido.\n\nRevisá el formato.\nDebe ser: {"producto":"Taladro","ubicacion":"A3","precio":18500.5,"cantidad":2}';
-          qrJsonDisplay.style.display = 'block';
-          btnAceptarQRData.style.display = 'none';
-        }
-      },
-      errorMessage => {
-        // Silencioso, pero podrías mostrar error aquí si querés
-      }
-    ).catch(err => {
-      alert("No se pudo acceder a la cámara. Dale permisos o probá en otro navegador.");
+  // 1. vendedores
+  fetch('components/ventas/api/get_vendedores.php')
+    .then(r => r.json())
+    .then(data => {
+      inputVendedor.innerHTML = '<option value="">Seleccionar vendedor</option>' +
+        data.map(v => `<option value="${v.id_usuario}">${v.user}</option>`).join('');
     });
-  });
 
- document.getElementById('modalScanOrSearchQR').addEventListener('hidden.bs.modal', function () {
-  if (qrScanner) {
-    try { qrScanner.stop(); } catch(e){}
-    qrScanner = null;
-  }
-  qrReaderDiv.style.display = 'none';
-  document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
-  document.body.classList.remove('modal-open');
-});
-
-
-  // "Aceptar" después de leer QR
-  btnAceptarQRData.addEventListener("click", () => {
-    let raw = jsonContentArea.value;
-    let jsonDatos = null;
-    try {
-      jsonDatos = JSON.parse(raw);
-      mostrarProductoEnPantalla(jsonDatos);
-      bootstrap.Modal.getInstance(modalQR).hide();
-      setTimeout(() => {
-        document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
-        document.body.classList.remove('modal-open');
-      }, 350);
-    } catch (e) {
-      jsonContentArea.value = "Error: JSON inválido. Revisá el formato.";
-      btnAceptarQRData.style.display = 'none';
-    }
-  });
-
-  function mostrarProductoEnPantalla(data) {
-    productoSeleccionado = data;
-    // Si querés los inputs visibles, podés mostrarlos acá (¡editables!)
-    document.getElementById("busquedaProducto").value = data.producto || '';
-    inputCosto.value = data.precio || 0;
-    selectCant.value = data.cantidad || 1;
-    actualizarTotalVista();
-  }
-
-  function actualizarTotalVista() {
-    let total = 0;
-    productosDetalle.forEach(p => {
-      total += p.cantidad * p.precio;
-    });
-    proformaTotal.textContent = "$" + total.toLocaleString();
-  }
-
-  selectCant.addEventListener("change", actualizarTotalVista);
-  inputCosto.addEventListener("input", actualizarTotalVista);
-
-  btnAdj.addEventListener("click", () => {
-    if (!productoSeleccionado) {
-      alert("Selecciona un producto primero");
+  // 2. búsqueda de productos
+  let timer = null;
+  inputBuscarProducto.addEventListener('input', () => {
+    const term = inputBuscarProducto.value.trim();
+    if (timer) clearTimeout(timer);
+    if (term.length < 2) {
+      listaResultados.classList.add('d-none');
       return;
     }
-    const cant = +selectCant.value;
-    const costo = +inputCosto.value;
-    const subtotal = cant * costo;
+    timer = setTimeout(() => {
+      fetch('components/ventas/api/buscar_productos.php?q=' + encodeURIComponent(term))
+        .then(r => r.json())
+        .then(data => {
+          if (!Array.isArray(data) || data.length === 0) {
+            listaResultados.innerHTML = '<div class="list-group-item">Sin resultados</div>';
+            listaResultados.classList.remove('d-none');
+            return;
+          }
+          listaResultados.innerHTML = data.map(p => `
+            <button type="button" class="list-group-item list-group-item-action" data-id="${p.id_producto}">
+              ${p.nombre} - $${Number(p.precio).toLocaleString('es-AR')}
+            </button>
+          `).join('');
+          listaResultados.classList.remove('d-none');
 
-    // Agrega al array
-    productosDetalle.push({
-      producto: productoSeleccionado.producto,
-      ubicacion: productoSeleccionado.ubicacion,
-      cantidad: cant,
-      precio: costo
-    });
-    // Actualiza tabla visual
-    renderDetalleProductos();
-
-    // Simula guardar producto vía AJAX (podés comentar esto si solo querés que se guarde al final)
-    fetch('components/ventas/guardar_producto.php', {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        producto: productoSeleccionado.producto,
-        ubicacion: productoSeleccionado.ubicacion,
-        precio: costo,
-        cantidad: cant
-      })
-    })
-    .then(r => r.json())
-    .then(res => {
-      if (!res.success) {
-        alert("No se pudo guardar en la base: " + (res.error || "Error desconocido"));
-      }
-    })
-    .catch(err => {
-      // alert("Error AJAX: " + err);
-    });
-
-    // Limpiar campos
-    productoSeleccionado = null;
-    document.getElementById("busquedaProducto").value = '';
-    inputCosto.value = '';
-    selectCant.value = 1;
-    actualizarTotalVista();
+          data.forEach(p => { productosCache[p.id_producto] = p; });
+        });
+    }, 400);
   });
 
-  // Función para renderizar la tabla de productos adjuntados
-  function renderDetalleProductos() {
-    detalleBody.innerHTML = '';
-    let total = 0;
-    productosDetalle.forEach((prod, i) => {
-      let subtotal = prod.cantidad * prod.precio;
-      total += subtotal;
-      let tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${prod.producto || ''}</td>
-        <td>${prod.ubicacion || ''}</td>
-        <td>${prod.cantidad}</td>
-        <td>$${prod.precio.toLocaleString()}</td>
-        <td>$${subtotal.toLocaleString()}</td>
-        <td><button class="btn btn-danger btn-sm btnQuitarProd" data-idx="${i}">&times;</button></td>
-      `;
-      detalleBody.appendChild(tr);
-    });
-    proformaTotal.textContent = "$" + total.toLocaleString();
+  listaResultados.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-id]');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    const prod = productosCache[id];
+    if (prod) {
+      agregarProductoAFila(prod);
+      listaResultados.classList.add('d-none');
+      inputBuscarProducto.value = '';
+    }
+  });
 
-    // Eventos para quitar productos
-    detalleBody.querySelectorAll('.btnQuitarProd').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const idx = parseInt(this.getAttribute('data-idx'));
-        productosDetalle.splice(idx, 1);
-        renderDetalleProductos();
+  btnAgregarProducto.addEventListener('click', () => {
+    const term = inputBuscarProducto.value.trim();
+    if (!term) return;
+
+    fetch('components/ventas/api/buscar_productos.php?q=' + encodeURIComponent(term))
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          agregarProductoAFila(data[0]);
+          inputBuscarProducto.value = '';
+          listaResultados.classList.add('d-none');
+        }
+      });
+  });
+
+  function agregarProductoAFila(prod) {
+    const cant = Number(inputCantidad.value || 1);
+    const unit = Number(prod.precio);
+    const subtotal = cant * unit;
+
+    detalle.push({
+      id_producto: prod.id_producto,
+      nombre: prod.nombre,
+      cantidad: cant,
+      unitario: unit,
+      subtotal: subtotal,
+      ubicacion: '-' // si después sumamos ubicaciones
+    });
+    renderTabla();
+  }
+
+  function renderTabla() {
+    tablaBody.innerHTML = '';
+    let total = 0;
+    detalle.forEach((item, idx) => {
+      total += item.subtotal;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.nombre}</td>
+        <td>${item.ubicacion}</td>
+        <td>
+          <input type="number" class="form-control form-control-sm cant-detalle" data-idx="${idx}" value="${item.cantidad}" min="1">
+        </td>
+        <td>$${item.unitario.toLocaleString('es-AR')}</td>
+        <td>$${item.subtotal.toLocaleString('es-AR')}</td>
+        <td><button class="btn btn-sm btn-danger btnQuitar" data-idx="${idx}">X</button></td>
+      `;
+      tablaBody.appendChild(tr);
+    });
+    labelTotalVenta.textContent = '$' + total.toLocaleString('es-AR');
+
+    tablaBody.querySelectorAll('.btnQuitar').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = Number(btn.dataset.idx);
+        detalle.splice(i, 1);
+        renderTabla();
+      });
+    });
+
+    tablaBody.querySelectorAll('.cant-detalle').forEach(inp => {
+      inp.addEventListener('change', () => {
+        const i = Number(inp.dataset.idx);
+        const nuevaCant = Number(inp.value || 1);
+        detalle[i].cantidad = nuevaCant;
+        detalle[i].subtotal = nuevaCant * detalle[i].unitario;
+        renderTabla();
       });
     });
   }
 
-  btnCancelar?.addEventListener("click", () => {
-    location.hash = "#/ventas";
-    setTimeout(() => location.reload(), 200);
+  // guardar
+  btnGuardarImprimir.addEventListener('click', () => {
+    const payload = {
+      nro_ticket: document.getElementById('inputNroTicket').value,
+      fecha: document.getElementById('inputFecha').value,
+      cliente: document.getElementById('inputCliente').value,
+      vendedor: document.getElementById('inputVendedor').value,
+      observaciones: document.getElementById('inputObservaciones').value,
+      detalle: detalle
+    };
+
+    if (!payload.vendedor) {
+      alert('Seleccioná un vendedor');
+      return;
+    }
+    if (payload.detalle.length === 0) {
+      alert('Agregá al menos un producto');
+      return;
+    }
+
+    fetch('components/ventas/api/guardar_venta.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(r => r.json())
+      .then(res => {
+        if (res.ok) {
+          alert('Venta guardada. ID: ' + res.id_factura);
+        } else {
+          alert('Error: ' + res.msg);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Error guardando la venta');
+      });
+  });
+
+  btnCancelarVenta.addEventListener('click', () => {
+    cargarVistaDirecta('components/ventas/ventas.php');
   });
 };
-
-// Si usás carga dinámica de componentes, esto inicializa la lógica cuando carga la vista:
-document.addEventListener('DOMContentLoaded', function(){
-  if(typeof window.initVentasNueva === 'function') window.initVentasNueva();
-});
-
-// Si tu HTML cambia la vista con JS, asegurate de llamar a window.initVentasNueva() cada vez que cargue el formulario.
