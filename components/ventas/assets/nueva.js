@@ -1,242 +1,267 @@
-// Cargar beep (pip)
-const audioBeep = new Audio('components/ventas/assets/sound.mp3');
-audioBeep.preload = 'auto';
-audioBeep.volume = 1.0;
+// =====================================
+// components/ventas/assets/nueva.js
+// MODO DEMO: no escribe en BD (solo muestra)
+// =====================================
 
-function onScanSuccess(decodedText, decodedResult) {
-  // Reproduce pip/beep al leer QR correctamente
-  audioBeep.currentTime = 0;
-  audioBeep.play().catch(()=>{});
+(function () {
+  // ---------- Config ----------
+  const MODO_DEMO = true; // ← importante: sin BD
 
-  // Tu lógica original:
-  mostrarQRLeido(decodedText);
-}
+  // ---------- Helpers ----------
+  const $ = (id) => document.getElementById(id);
+  const on = (el, ev, cb) => el && el.addEventListener(ev, cb);
+  const moneyAR = (n) => '$' + Number(n || 0).toLocaleString('es-AR');
 
-// ---- INICIALIZACIÓN DE LA VISTA DE NUEVA VENTA ----
-window.initVentasNueva = function () {
-  const selectCant = document.getElementById('selectCant');
-  if (!selectCant) return;
+  // ---------- Estado ----------
+  const state = {
+    items: [], // { producto_id, nombre, ubicacion, cantidad, unitario }
+    total: 0,
+  };
 
-  const btnBuscar = document.getElementById('btnBuscarProd');
-  const btnLeerQR = document.getElementById('btnLeerQR');
-  const qrJsonDisplay = document.getElementById('qrJsonDisplay');
-  const jsonContentArea = document.getElementById('jsonContentArea');
-  const btnAceptarQRData = document.getElementById('btnAceptarQRData');
-  const btnAdj = document.getElementById('btnAdjuntar');
-  const detalleBody = document.getElementById('detalleProductosBody');
-  const proformaTotal = document.getElementById('proformaTotal');
-  const inputCosto = document.getElementById('inputCosto');
-  const btnCancelar = document.getElementById('btnCancelarVenta');
-  const qrReaderDiv = document.getElementById('qr-reader');
-  const modalQR = document.getElementById('modalScanOrSearchQR');
-  const busqInput = document.getElementById('busquedaProducto');
-
-  let productoSeleccionado = null;
-  let totalGlobal = 0;
-  let productosDetalle = []; // array para los productos adjuntados
-  let qrScanner = null;
-
-  // Inicializar cantidades
-  selectCant.innerHTML = '';
-  for (let i = 1; i <= 99; i++) {
-    selectCant.innerHTML += `<option value="${i}">${i}</option>`;
+  // ---------- Render ----------
+  function renderTotal() {
+    const totalSpan = $('proformaTotal');
+    const totalPrev = $('totalModalTicket');
+    state.total = state.items.reduce((a, it) => a + (Number(it.cantidad) * Number(it.unitario)), 0);
+    if (totalSpan) totalSpan.textContent = moneyAR(state.total);
+    if (totalPrev) totalPrev.textContent = moneyAR(state.total);
   }
 
-  btnBuscar.addEventListener("click", () => {
-    qrReaderDiv.style.display = 'none';
-    qrJsonDisplay.style.display = 'none';
-    btnAceptarQRData.style.display = 'none';
-    jsonContentArea.value = '';
-  });
-
-  btnLeerQR.addEventListener("click", () => {
-    // Desbloquea el audio: la primera vez que el usuario toca el botón, el navegador permite reproducir audio después.
-    
-
-    qrReaderDiv.style.display = 'block';
-    qrJsonDisplay.style.display = 'none';
-    btnAceptarQRData.style.display = 'none';
-    jsonContentArea.value = '';
-
-  if (qrScanner) {
-  // Sin catch: si da error, no pasa nada grave
-    qrScanner.clear && qrScanner.clear();
-    qrScanner = null;
-  }
-
- 
-
-    qrScanner = new Html5Qrcode("qr-reader");
-
-    qrScanner.start(
-      { facingMode: "environment" },
-      { fps: 10, qrbox: 250 },
-      qrCodeMessage => {
-        // ¡Pip!
-        audioBeep.currentTime = 0;
-        audioBeep.play().catch(()=>{});
-
-        // Solo permitimos JSON válido
-        let json = null;
-        try {
-          json = JSON.parse(qrCodeMessage.trim());
-          qrJsonDisplay.style.display = 'block';
-          jsonContentArea.value = JSON.stringify(json, null, 2);
-          btnAceptarQRData.style.display = 'inline-block';
-
-          qrScanner.stop().then(() => {
-            qrReaderDiv.style.display = 'none';
-          });
-        } catch (e) {
-          jsonContentArea.value = 'El QR leído NO es JSON válido.\n\nRevisá el formato.\nDebe ser: {"producto":"Taladro","ubicacion":"A3","precio":18500.5,"cantidad":2}';
-          qrJsonDisplay.style.display = 'block';
-          btnAceptarQRData.style.display = 'none';
-        }
-      },
-      errorMessage => {
-        // Silencioso, pero podrías mostrar error aquí si querés
-      }
-    ).catch(err => {
-      alert("No se pudo acceder a la cámara. Dale permisos o probá en otro navegador.");
-    });
-  });
-
- document.getElementById('modalScanOrSearchQR').addEventListener('hidden.bs.modal', function () {
-  if (qrScanner) {
-    try { qrScanner.stop(); } catch(e){}
-    qrScanner = null;
-  }
-  qrReaderDiv.style.display = 'none';
-  document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
-  document.body.classList.remove('modal-open');
-});
-
-
-  // "Aceptar" después de leer QR
-  btnAceptarQRData.addEventListener("click", () => {
-    let raw = jsonContentArea.value;
-    let jsonDatos = null;
-    try {
-      jsonDatos = JSON.parse(raw);
-      mostrarProductoEnPantalla(jsonDatos);
-      bootstrap.Modal.getInstance(modalQR).hide();
-      setTimeout(() => {
-        document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
-        document.body.classList.remove('modal-open');
-      }, 350);
-    } catch (e) {
-      jsonContentArea.value = "Error: JSON inválido. Revisá el formato.";
-      btnAceptarQRData.style.display = 'none';
-    }
-  });
-
-  function mostrarProductoEnPantalla(data) {
-    productoSeleccionado = data;
-    // Si querés los inputs visibles, podés mostrarlos acá (¡editables!)
-    document.getElementById("busquedaProducto").value = data.producto || '';
-    inputCosto.value = data.precio || 0;
-    selectCant.value = data.cantidad || 1;
-    actualizarTotalVista();
-  }
-
-  function actualizarTotalVista() {
-    let total = 0;
-    productosDetalle.forEach(p => {
-      total += p.cantidad * p.precio;
-    });
-    proformaTotal.textContent = "$" + total.toLocaleString();
-  }
-
-  selectCant.addEventListener("change", actualizarTotalVista);
-  inputCosto.addEventListener("input", actualizarTotalVista);
-
-  btnAdj.addEventListener("click", () => {
-    if (!productoSeleccionado) {
-      alert("Selecciona un producto primero");
-      return;
-    }
-    const cant = +selectCant.value;
-    const costo = +inputCosto.value;
-    const subtotal = cant * costo;
-
-    // Agrega al array
-    productosDetalle.push({
-      producto: productoSeleccionado.producto,
-      ubicacion: productoSeleccionado.ubicacion,
-      cantidad: cant,
-      precio: costo
-    });
-    // Actualiza tabla visual
-    renderDetalleProductos();
-
-    // Simula guardar producto vía AJAX (podés comentar esto si solo querés que se guarde al final)
-    fetch('components/ventas/guardar_producto.php', {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        producto: productoSeleccionado.producto,
-        ubicacion: productoSeleccionado.ubicacion,
-        precio: costo,
-        cantidad: cant
-      })
-    })
-    .then(r => r.json())
-    .then(res => {
-      if (!res.success) {
-        alert("No se pudo guardar en la base: " + (res.error || "Error desconocido"));
-      }
-    })
-    .catch(err => {
-      // alert("Error AJAX: " + err);
-    });
-
-    // Limpiar campos
-    productoSeleccionado = null;
-    document.getElementById("busquedaProducto").value = '';
-    inputCosto.value = '';
-    selectCant.value = 1;
-    actualizarTotalVista();
-  });
-
-  // Función para renderizar la tabla de productos adjuntados
-  function renderDetalleProductos() {
-    detalleBody.innerHTML = '';
-    let total = 0;
-    productosDetalle.forEach((prod, i) => {
-      let subtotal = prod.cantidad * prod.precio;
-      total += subtotal;
-      let tr = document.createElement("tr");
+  function renderDetalle() {
+    const tbody = $('detalleProductosBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    state.items.forEach((it, idx) => {
+      const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>${prod.producto || ''}</td>
-        <td>${prod.ubicacion || ''}</td>
-        <td>${prod.cantidad}</td>
-        <td>$${prod.precio.toLocaleString()}</td>
-        <td>$${subtotal.toLocaleString()}</td>
-        <td><button class="btn btn-danger btn-sm btnQuitarProd" data-idx="${i}">&times;</button></td>
+        <td>${it.nombre ?? '-'}</td>
+        <td>${it.ubicacion ?? '-'}</td>
+        <td class="text-center">${it.cantidad}</td>
+        <td class="text-end">${moneyAR(it.unitario)}</td>
+        <td class="text-end">${moneyAR(it.cantidad * it.unitario)}</td>
+        <td class="text-center">
+          <button class="btn btn-sm btn-outline-danger" data-idx="${idx}">✕</button>
+        </td>
       `;
-      detalleBody.appendChild(tr);
+      tbody.appendChild(tr);
     });
-    proformaTotal.textContent = "$" + total.toLocaleString();
-
-    // Eventos para quitar productos
-    detalleBody.querySelectorAll('.btnQuitarProd').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const idx = parseInt(this.getAttribute('data-idx'));
-        productosDetalle.splice(idx, 1);
-        renderDetalleProductos();
+    // quitar item
+    tbody.querySelectorAll('button[data-idx]').forEach(btn => {
+      on(btn, 'click', () => {
+        const i = Number(btn.getAttribute('data-idx'));
+        state.items.splice(i, 1);
+        renderDetalle(); renderTicket(); renderTotal();
       });
     });
   }
 
-  btnCancelar?.addEventListener("click", () => {
-    location.hash = "#/ventas";
-    setTimeout(() => location.reload(), 200);
-  });
-};
+  function renderTicket() {
+    const tb = $('tablaVentaTicket');
+    if (!tb) return;
+    tb.innerHTML = '';
+    state.items.forEach(it => {
+      const tr = document.createElement('tr');
+      tr.className = 'small';
+      tr.innerHTML = `
+        <td>${it.nombre ?? '-'}</td>
+        <td class="text-center">${it.ubicacion ?? '-'}</td>
+        <td class="text-center">${it.cantidad}</td>
+        <td class="text-end">${moneyAR(it.unitario)}</td>
+        <td class="text-end">${moneyAR(it.cantidad * it.unitario)}</td>
+      `;
+      tb.appendChild(tr);
+    });
+  }
 
-// Si usás carga dinámica de componentes, esto inicializa la lógica cuando carga la vista:
-document.addEventListener('DOMContentLoaded', function(){
-  if(typeof window.initVentasNueva === 'function') window.initVentasNueva();
-});
+  function syncPreview() {
+    const numeroPrev = $('facturaNumero');
+    const fechaPrev  = $('ticketFechaPreview');
+    const clientePrev= $('ticketClientePreview');
+    const vendPrev   = $('ticketVendedorPreview');
+    const obsPrev    = $('ticketObsPreview');
 
-// Si tu HTML cambia la vista con JS, asegurate de llamar a window.initVentasNueva() cada vez que cargue el formulario.
+    if (numeroPrev)  numeroPrev.textContent   = ($('facturaNumeroInput')?.value || '0001-00001234');
+    if (fechaPrev)   fechaPrev.textContent    = ($('ticketFecha')?.value || '');
+    if (clientePrev) clientePrev.textContent  = ($('ticketCliente')?.value || '');
+    if (vendPrev)    vendPrev.textContent     = ($('ticketVendedor')?.value || '');
+    if (obsPrev)     obsPrev.textContent      = ($('ticketObservaciones')?.value || '');
+  }
+
+  // ---------- Data ----------
+  async function cargarVendedores() {
+    try {
+      const res = await fetch('components/ventas/api/get_vendedores.php');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const sel = $('ticketVendedor');
+      if (!Array.isArray(data) || !sel) throw new Error('respuesta inválida');
+      sel.innerHTML = '<option value="">Seleccionar vendedor</option>' +
+        data.map(v => `<option>${v}</option>`).join('');
+    } catch (e) {
+      // Fallback en DEMO
+      const sel = $('ticketVendedor');
+      if (sel) {
+        const fallback = ['Ariel','Lara','Teo'];
+        sel.innerHTML = '<option value="">Seleccionar vendedor</option>' +
+          fallback.map(v => `<option>${v}</option>`).join('');
+      }
+      console.warn('Vendedores en modo demo:', e.message);
+    }
+  }
+
+  function agregarItemDesdeProducto(p, cantidad, unitario) {
+    const item = {
+      producto_id: p.id_producto ?? p.id ?? 0,
+      nombre: p.nombre ?? p.producto ?? 'Producto',
+      ubicacion: p.ubicacion ?? '-',
+      cantidad: Number(cantidad || 1),
+      unitario: Number(unitario ?? p.precio ?? 0)
+    };
+    state.items.push(item);
+    renderDetalle(); renderTicket(); renderTotal();
+  }
+
+  // DEMO: si viene solo un código, crea un item genérico
+  function agregarItemGenericoDesdeCodigo(code) {
+    const cant = Number($('selectCant')?.value || 1);
+    const unit = Number($('inputCosto')?.value || 0);
+    agregarItemDesdeProducto({ producto: `Código ${code}`, precio: unit, ubicacion: '-' }, cant, unit);
+  }
+
+  // ---------- Guardar (DEMO) ----------
+  async function guardarVentaDemo() {
+    // No llama al backend; solo abre el modal ticket
+    const modalEl = $('modalTicket');
+    if (modalEl) {
+      const m = new bootstrap.Modal(modalEl);
+      m.show();
+    }
+    return 1; // id ficticio
+  }
+
+  // ---------- QR / Cámara ----------
+  let qrInstance = null;
+  let qrRunning  = false;
+  function startQR() {
+    if (!window.Html5Qrcode) {
+      alert('No se pudo cargar el lector QR. Verifica html5-qrcode.min.js');
+      return;
+    }
+    const qrReader = $('qr-reader');
+    if (!qrReader) return;
+    qrReader.style.display = 'block';
+    if (!qrInstance) qrInstance = new Html5Qrcode('qr-reader');
+
+    const config = { fps: 10, qrbox: 250 };
+    const camera = { facingMode: 'environment' };
+    qrInstance.start(camera, config, onQrSuccess, onQrError)
+      .then(() => { qrRunning = true; })
+      .catch(err => {
+        console.error('No se pudo iniciar la cámara:', err);
+        alert('No se pudo iniciar la cámara.\nPermití el acceso a la cámara.');
+      });
+  }
+  function stopQR() {
+    if (qrInstance && qrRunning) {
+      qrInstance.stop().then(() => { qrRunning = false; qrInstance.clear(); }).catch(() => {});
+    }
+  }
+  function onQrSuccess(decodedText) {
+    console.log('QR leído:', decodedText);
+    const txt = decodedText.trim();
+    const pareceJSON = txt.startsWith('{') || txt.startsWith('[');
+    const jsonArea = $('jsonContentArea');
+    const qrJsonDisplay = $('qrJsonDisplay');
+    const btnAceptarQR = $('btnAceptarQRData');
+    const modal = $('modalScanOrSearchQR');
+
+    if (pareceJSON) {
+      if (jsonArea) jsonArea.value = txt;
+      if (qrJsonDisplay) qrJsonDisplay.style.display = 'block';
+      if (btnAceptarQR)  btnAceptarQR.style.display  = 'inline-block';
+    } else {
+      // DEMO: agregar item por código y cerrar
+      agregarItemGenericoDesdeCodigo(txt);
+      const m = modal ? bootstrap.Modal.getInstance(modal) : null;
+      if (m) m.hide();
+    }
+    stopQR();
+  }
+  function onQrError() {}
+
+  // ---------- Init pública ----------
+  window.initVentasNueva = function () {
+    console.log('🧾 initVentasNueva (ticket) activo — MODO DEMO');
+
+    // Cantidades 1..20
+    const selectCant = $('selectCant');
+    if (selectCant && selectCant.options.length === 0) {
+      const frag = document.createDocumentFragment();
+      for (let i = 1; i <= 20; i++) {
+        const opt = document.createElement('option');
+        opt.value = i; opt.textContent = i;
+        frag.appendChild(opt);
+      }
+      selectCant.appendChild(frag);
+    }
+
+    // Preview
+    on($('facturaNumeroInput'), 'input', syncPreview);
+    on($('ticketFecha'), 'input', syncPreview);
+    on($('ticketCliente'), 'input', syncPreview);
+    on($('ticketVendedor'), 'change', syncPreview);
+    on($('ticketObservaciones'), 'input', syncPreview);
+    syncPreview();
+
+    // Botón del modal QR
+    on($('btnLeerQR'), 'click', startQR);
+
+    // Cerrar modal → detener cámara y limpiar
+    const modal = $('modalScanOrSearchQR');
+    if (modal) {
+      modal.addEventListener('hidden.bs.modal', () => {
+        stopQR();
+        const qrReader = $('qr-reader');
+        const qrJsonDisplay = $('qrJsonDisplay');
+        const btnAceptarQR = $('btnAceptarQRData');
+        if (qrReader) qrReader.style.display = 'none';
+        if (qrJsonDisplay) qrJsonDisplay.style.display = 'none';
+        if (btnAceptarQR)  btnAceptarQR.style.display  = 'none';
+      });
+    }
+
+    // Aceptar JSON del QR → DEMO: agregar al ticket y cerrar
+    on($('btnAceptarQRData'), 'click', () => {
+      try {
+        const txt = $('jsonContentArea')?.value || '{}';
+        const obj = JSON.parse(txt);
+        const cant = $('selectCant')?.value || 1;
+        const unit = $('inputCosto')?.value || obj.precio || 0;
+        agregarItemDesdeProducto(obj, cant, unit);
+
+        const modalEl = $('modalScanOrSearchQR');
+        const m = modalEl ? bootstrap.Modal.getInstance(modalEl) : null;
+        if (m) m.hide();
+        stopQR();
+      } catch (e) {
+        alert('El JSON del QR no es válido.');
+        console.error(e);
+      }
+    });
+
+    // Guardar / Imprimir → DEMO (no BD)
+    on($('btnImprimir'), 'click', async () => {
+      await guardarVentaDemo();
+    });
+
+    // Cancelar
+    on($('btnCancelarVenta'), 'click', () => {
+      state.items = [];
+      renderDetalle(); renderTicket(); renderTotal();
+    });
+
+    // Carga inicial
+    cargarVendedores();
+    renderDetalle(); renderTicket(); renderTotal();
+  };
+})();

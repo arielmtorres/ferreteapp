@@ -8,7 +8,7 @@ if (!defined('FERRETEAPP')) {
 // Selecciona la fuente de datos
 // ---------------------------
 // true = usas JSON falsos; false = MySQL real
-define('USE_JSON', true);
+define('USE_JSON', false);
 
 // ---------------------------
 // Conexión a MySQL (solo si USE_JSON === false)

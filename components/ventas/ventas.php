@@ -1,150 +1,44 @@
 <link rel="stylesheet" href="components/ventas/assets/ventas.css">
-<section class="mb-5">
-   
-    <div class="d-flex justify-content-between align-items-center mb-3 pt-4">
-      <h3 class="mb-4">💵 Ventas</h3>
-    </div>
-<div class="container ventas-container">
-  <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-5">
-    <div class="d-flex align-items-center gap-2">
-      <button id="btnNuevaVenta" class="btn btn-success btn-sm">+ Nueva venta</button>
-      <select id="filtroVendedor" class="form-select form-select-sm" style="width:auto;min-width:200px;">
-        <option value="">Todos los vendedores</option>
-      </select>
-    </div>
-    <div class="d-flex align-items-center gap-2 export-actions">
-      <button id="btnExportPDF" class="btn btn-outline-danger btn-sm">PDF</button>
-      <button id="btnExportExcel" class="btn btn-outline-success btn-sm">Excel</button>
-    </div>
+
+<section id="ventas" class="mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-3 pt-4">
+    <h3 class="mb-4">💵 Ventas</h3>
   </div>
 
-  <div >
-    <div class="card-header">
-      <h5 class="mb-4">Historial de ventas</h5>
+  <div class="container ventas-container">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-5">
+      <div class="d-flex align-items-center gap-2">
+        <button id="btnNuevaVenta" class="btn btn-success btn-sm">+ Nueva venta</button>
+        <select id="filtroVendedor" class="form-select form-select-sm" style="width:auto;min-width:200px;">
+          <option value="">Todos los vendedores</option>
+        </select>
+      </div>
+      <div class="d-flex align-items-center gap-2 export-actions">
+        <button id="btnExportPDF" class="btn btn-outline-danger btn-sm">PDF</button>
+        <button id="btnExportExcel" class="btn btn-outline-success btn-sm">Excel</button>
+      </div>
     </div>
-    <div class="card-body p-0">
-      <table class="table table-bordered table-hover table-striped mb-0">
-        <thead class="table-light">
-          <tr>
-            <th>Vendedor</th>
-            <th>Productos</th>
-            <th>Total</th>
-            <th>Detalle</th>
-          </tr>
-        </thead>
-        <tbody id="ventasTableBody"></tbody>
-      </table>
-      <div id="paginacionVentas" class="d-flex justify-content-center align-items-center mt-3 gap-2"></div>
+
+    <div>
+      <div class="card-header">
+        <h5 class="mb-4">Historial de ventas</h5>
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-bordered table-hover table-striped mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Vendedor</th>
+              <th>Productos</th>
+              <th>Total</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody id="ventasTableBody"></tbody>
+        </table>
+        <div id="paginacionVentas" class="d-flex justify-content-center align-items-center mt-3 gap-2"></div>
+      </div>
     </div>
   </div>
 </section>
 
 <script src="components/ventas/assets/ventas.js"></script>
-
-
-
-<style>
-  /* Fondo general */
-  body {
-    background-color: #e9e9e9;
-    font-family: "Segoe UI", Arial, sans-serif;
-    color: #333;
-  }
-
- 
-
- 
-
-
-  /* Tabla */
-  .table-container {
-    border-radius: 12px;
-    overflow-x: auto;
-  }
-
-  .table {
-    width: 100%;
-    border-collapse: separate; /* permite espacio entre filas */
-    border-spacing: 0 10px; /* separa las filas */
-    background-color: transparent;
-  }
-
-
-/* Header moderno y minimalista */
-.table thead th {
-  background-color: #fafafa; /* fondo muy claro y limpio */
-  color: #333; /* gris oscuro para contraste */
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-align: left;
-  padding: 16px 18px;
-  border-bottom: 1px solid #e0e0e0; /* línea fina y elegante */
-  letter-spacing: 0.5px; /* un toque de separación */
-}
-
-/* Opcional: efecto sutil al pasar el mouse sobre el header */
-.table thead th:hover {
-  background-color: #f2f2f2;
-}
-
-
-  .table tbody tr {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease;
-  }
-
-  .table tbody tr:hover {
-    background-color: #f9f9f9;
-    transform: scale(1.01);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  .table td {
-    padding: 14px 16px;
-    border: none; /* quitamos bordes entre celdas */
-  }
-
-  /* Bordes redondeados en las esquinas de cada fila */
-  .table tbody tr:first-child td:first-child {
-    border-top-left-radius: 10px;
-  }
-  .table tbody tr:first-child td:last-child {
-    border-top-right-radius: 10px;
-  }
-  .table tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 10px;
-  }
-  .table tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 10px;
-  }
-
-  /* Botones dentro de la tabla */
-  .btn {
-    border-radius: 8px;
-    font-size: 0.85rem;
-    padding: 6px 12px;
-  }
-
-  .btn-warning {
-    background-color: #ffb300;
-    color: #fff;
-    border: none;
-  }
-
-  .btn-warning:hover {
-    background-color: #ffa000;
-  }
-
-  .btn-danger {
-    background-color: #e53935;
-    color: #fff;
-    border: none;
-  }
-
-  .btn-danger:hover {
-    background-color: #d32f2f;
-  }
-
-</style>
